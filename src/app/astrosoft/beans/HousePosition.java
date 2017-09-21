@@ -9,19 +9,12 @@ package app.astrosoft.beans;
 import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.Roman;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
-import app.astrosoft.ui.table.ColumnMetaData;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.Mod;
 
-public class HousePosition implements Exportable {
+public class HousePosition  {
 
-	public class Bhava implements TableRowData {
+	public class Bhava{
 
 		Rasi house;
 		
@@ -110,9 +103,6 @@ public class HousePosition implements Exportable {
 
 	private double siderealTime;
 
-	private TableData<Bhava> bhavaTableData;
-
-	private DefaultColumnMetaData bhavaTableColumnData;
 
 	public HousePosition(double positions[]) {
 
@@ -195,43 +185,7 @@ public class HousePosition implements Exportable {
 		return siderealTime;
 	}
 
-	public TableData<Bhava> getBhavaTableData() {
 
-		if (bhavaTableData == null) {
-			bhavaTableData = TableDataFactory.getTableData(housePositions);
-		}
-		return bhavaTableData;
-	}
-
-	public ColumnMetaData getBhavaTableColumnData() {
-
-		if (bhavaTableColumnData == null) {
-			bhavaTableColumnData = new DefaultColumnMetaData(
-					AstrosoftTableColumn.House, AstrosoftTableColumn.Bhava,
-					AstrosoftTableColumn.Start,AstrosoftTableColumn.Mid,
-					AstrosoftTableColumn.End,AstrosoftTableColumn.Length) {
-
-				@Override
-				public Class getColumnClass(AstrosoftTableColumn col) {
-
-					switch (col) {
-						case Start :
-						case Mid :
-						case End :
-						case Length :
-							return Degree.class;
-						case House:
-							return Roman.class;
-					}
-					return super.getColumnClass(col);
-				}
-			};
-			bhavaTableColumnData.localizeColumns();
-
-		}
-
-		return bhavaTableColumnData;
-	}
 
 	@Override
 	public String toString() {
@@ -258,7 +212,4 @@ public class HousePosition implements Exportable {
 		return (length == 360.00);
 	}
 
-	public void doExport(Exporter e) {
-		e.export(this);
-	}
 }

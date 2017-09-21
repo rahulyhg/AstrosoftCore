@@ -26,21 +26,11 @@ import app.astrosoft.consts.Nakshathra;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.XmlConsts;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
-import app.astrosoft.export.XMLHelper;
+
 import app.astrosoft.util.AstroUtil;
-import app.astrosoft.ui.AstroSoft;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.ColumnMetaData;
-import app.astrosoft.ui.table.MapTableRow;
-import app.astrosoft.ui.table.MapTableRowHelper;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.FileOps;
 
-public class Compactibility implements Exportable {
+public class Compactibility  {
 
 	private static enum KutaFile {
 		RasiKuta,
@@ -70,19 +60,6 @@ public class Compactibility implements Exportable {
 
 	private EnumMap<Kuta, Integer> kutas;
 
-	private TableData<? extends TableRowData> kutaTableData;
-
-	private TableData<? extends TableRowData> boyInfo;
-
-	private TableData<? extends TableRowData> girlInfo;
-
-	private static DefaultColumnMetaData kutaTableColumnMetaData;
-
-	private static DefaultColumnMetaData infoTableColumnMetaData;
-
-	private TableData<? extends TableRowData> doshaTableData;
-
-	private static DefaultColumnMetaData doshaTableColumnMetaData;
 
 	private int totalKutaGained = 0;
 
@@ -133,7 +110,6 @@ public class Compactibility implements Exportable {
 			totalKutaGained = totalKutaGained + kutas.get(k);
 		}
 
-		constructColumnMetaData();
 	}
 
 	public Compactibility(Horoscope b, Horoscope g) {
@@ -152,75 +128,7 @@ public class Compactibility implements Exportable {
 		hasHoroscope = true;
 	}
 
-	public void saveToXML(String fileName){
 
-		Document doc = XMLHelper.createDOM();
-		Element compElement = XMLHelper.addRootElement(doc, XmlConsts.Compactibility);
-		XMLHelper.addAttribute(compElement, XmlConsts.hasHoroscope, "true");
-
-		if (hasHoroscope){
-
-			compElement.appendChild(boyBirthData.toXMLElement(doc, XmlConsts.BoyData));
-			compElement.appendChild(girlBirthData.toXMLElement(doc, XmlConsts.GirlData));
-			XMLHelper.addAttribute(compElement, XmlConsts.hasHoroscope, "true");
-
-		}else{
-
-			XMLHelper.addAttribute(compElement, XmlConsts.hasHoroscope, "false");
-
-			Element boyElement = doc.createElement(XmlConsts.BoyData);
-			Element girlElement = doc.createElement(XmlConsts.GirlData);
-
-			XMLHelper.addElement(doc, boyElement, XmlConsts.Name, boyName);
-			XMLHelper.addElement(doc, boyElement, XmlConsts.Name, girlName);
-
-			XMLHelper.addElement(doc, boyElement, XmlConsts.Rasi, boyRasi().name());
-			XMLHelper.addElement(doc, boyElement, XmlConsts.Nakshathra, boyNak().name());
-
-			XMLHelper.addElement(doc, girlElement, XmlConsts.Rasi, girlRasi().name());
-			XMLHelper.addElement(doc, girlElement, XmlConsts.Nakshathra, girlNak().name());
-
-			compElement.appendChild(boyElement);
-			compElement.appendChild(girlElement);
-		}
-
-		XMLHelper.saveXML(doc, fileName);
-	}
-
-	public static Compactibility createFromXML(String fileName){
-
-		Document doc = XMLHelper.parseXML(fileName);
-
-		Element compElement = (Element) doc.getChildNodes().item(0);
-		boolean hasHorosocope = Boolean.valueOf(compElement.getAttribute(XmlConsts.hasHoroscope));
-
-		Node boy = compElement.getChildNodes().item(0);
-
-		Node girl = compElement.getChildNodes().item(1);
-
-		Compactibility c;
-
-		if (hasHorosocope){
-
-			c = new Compactibility(new Horoscope(BirthData.valueOfXMLNode(boy)), new Horoscope(BirthData.valueOfXMLNode(girl)));
-
-		}else{
-
-			Map<String, String> boyElements = XMLHelper.getChildElements(boy);
-			Map<String, String> girlElements = XMLHelper.getChildElements(girl);
-
-			c = new Compactibility(
-					boyElements.get(XmlConsts.Name),
-					girlElements.get(XmlConsts.Name),
-					Nakshathra.valueOf(boyElements.get(XmlConsts.Nakshathra)),
-					Nakshathra.valueOf(girlElements.get(XmlConsts.Nakshathra)),
-					Rasi.valueOf(boyElements.get(XmlConsts.Rasi)),
-					Rasi.valueOf(girlElements.get(XmlConsts.Rasi))
-					);
-			}
-
-		return c;
-	}
 
 	private void calcKutas() {
 
@@ -1310,215 +1218,14 @@ public class Compactibility implements Exportable {
 		return Nakshathra.ofIndex(girlNak);
 	}
 
-	public TableData<? extends TableRowData> getKutaTableData() {
-
-		if (kutaTableData == null) {
-
-			TableData<TableRowData> kutaData = TableDataFactory.getTableData(
-					constructKutaRows(), Kuta.class);
-			TableData<TableRowData> totalRowData = TableDataFactory
-					.getTableData(constructTotalRow());
-
-			kutaTableData = TableDataFactory.getTableData(kutaData,
-					totalRowData);
-
-		}
-		return kutaTableData;
-	}
 
 	public boolean hasHoroscope() {
 		return hasHoroscope;
 	}
 
-	private void constructColumnMetaData() {
-
-		kutaTableColumnMetaData = new DefaultColumnMetaData(
-				AstrosoftTableColumn.Kuta, AstrosoftTableColumn.KutaGained,
-				AstrosoftTableColumn.MaxKuta){
-
-			public Class getColumnClass(AstrosoftTableColumn col) {
-
-				if (col == AstrosoftTableColumn.Kuta){
-					return Kuta.class;
-				}else{
-					return Number.class;
-				}
-			}
-		};
-		kutaTableColumnMetaData.localizeColumns();
-
-		doshaTableColumnMetaData = new DefaultColumnMetaData(
-				AstrosoftTableColumn.Dosha, AstrosoftTableColumn.Boy,
-				AstrosoftTableColumn.Girl){
-
-					public Class getColumnClass(AstrosoftTableColumn col) {
-
-						if (col == AstrosoftTableColumn.Dosha){
-							return Planet.class;
-						}else{
-							return Number.class;
-						}
-					}
-				};
-		doshaTableColumnMetaData.localizeColumns();
-
-		infoTableColumnMetaData = new DefaultColumnMetaData(
-				AstrosoftTableColumn.Key, AstrosoftTableColumn.Value,
-				AstrosoftTableColumn.Beeja, AstrosoftTableColumn.Kshetra);
-		infoTableColumnMetaData.setHiddenColumnCount(2);
-		infoTableColumnMetaData.localizeColumns();
-	}
-
-	private EnumMap<Kuta, TableRowData> constructKutaRows() {
-
-		EnumMap<Kuta, TableRowData> rows = new EnumMap<Kuta, TableRowData>(
-				Kuta.class);
-
-		MapTableRowHelper helper = new MapTableRowHelper(
-				kutaTableColumnMetaData);
-
-		for (Kuta kuta : Kuta.values()) {
-
-			rows.put(kuta, helper.createRow(kuta, kutas.get(kuta), kuta
-					.maxValue()));
-
-		}
-		return rows;
-	}
-
-	private List<TableRowData> constructTotalRow() {
-
-		MapTableRow totalRow = new MapTableRow();
-
-		totalRow.addColumn(AstrosoftTableColumn.Kuta, DisplayStrings.TOTAL_STR);
-		totalRow.addColumn(AstrosoftTableColumn.KutaGained, totalKutaGained);
-		totalRow.addColumn(AstrosoftTableColumn.MaxKuta, Kuta.totalValue());
-
-		List<TableRowData> totalRowData = new ArrayList<TableRowData>();
-		totalRowData.add(totalRow);
-		return totalRowData;
-	}
-
-	public static ColumnMetaData getKutaTableColumnMetaData() {
-
-		return kutaTableColumnMetaData;
-	}
-
-	public TableData<? extends TableRowData> getBoyInfo() {
-
-		MapTableRowHelper helper = new MapTableRowHelper(
-				AstrosoftTableColumn.Key, AstrosoftTableColumn.Value,
-				AstrosoftTableColumn.Beeja);
-
-		if (boyInfo == null) {
-
-			List<TableRowData> rows = new ArrayList<TableRowData>();
-
-			rows.add(helper.createRow(DisplayStrings.BOY_STR, boyName));
-
-			if (hasHoroscope) {
-				rows.add(helper.createRow(DisplayStrings.DOB_STR, boyBirthData.birthDayString()));
-				rows.add(helper.createRow(DisplayStrings.TOB_STR, AstroUtil.timeFormat(boyBirthData.birthTime(),true)));
-				rows.add(helper.createRow(DisplayStrings.PLACE_STR, boyBirthData.place()));
-			}
-			rows.add(helper.createRow(DisplayStrings.NAK_STR, boyNak()));
-			rows.add(helper.createRow(DisplayStrings.RASI_STR, boyRasi()));
-
-			// We have horoscope details
-			if (hasHoroscope) {
-
-				rows.add(helper.createRow(DisplayStrings.CURR_PD_STR,
-						this.bCurPeriod));
-				rows.add(helper.createRow(AstrosoftTableColumn.Beeja,
-						this.beejaRasi, this.beejaPos));
-
-			}
-
-			boyInfo = TableDataFactory.getTableData(rows);
-
-		}
-		return boyInfo;
-	}
-
-	public TableData<? extends TableRowData> getGirlInfo() {
-
-		MapTableRowHelper helper = new MapTableRowHelper(
-				AstrosoftTableColumn.Key, AstrosoftTableColumn.Value,
-				AstrosoftTableColumn.Kshetra);
-
-		if (girlInfo == null) {
-
-			List<TableRowData> rows = new ArrayList<TableRowData>();
-
-			rows.add(helper.createRow(DisplayStrings.GIRL_STR, girlName));
-			if (hasHoroscope) {
-				rows.add(helper.createRow(DisplayStrings.DOB_STR, girlBirthData.birthDayString()));
-				rows.add(helper.createRow(DisplayStrings.TOB_STR, AstroUtil.timeFormat(girlBirthData.birthTime(),true)));
-				rows.add(helper.createRow(DisplayStrings.PLACE_STR, girlBirthData.place()));
-			}
-			rows.add(helper.createRow(DisplayStrings.NAK_STR, girlNak()));
-			rows.add(helper.createRow(DisplayStrings.RASI_STR, girlRasi()));
-
-			// We have horoscope details
-			if (hasHoroscope) {
-
-				rows.add(helper.createRow(DisplayStrings.CURR_PD_STR,
-						gCurPeriod));
-				rows.add(helper.createRow(AstrosoftTableColumn.Kshetra,
-						kshetraRasi, this.kshetraPos));
-			}
-			girlInfo = TableDataFactory.getTableData(rows);
-
-		}
-		return girlInfo;
-	}
-
-	public static ColumnMetaData getInfoTableColumnMetaData() {
-
-		return infoTableColumnMetaData;
-	}
-
-	public TableData<? extends TableRowData> getDoshaTableData() {
-
-		MapTableRowHelper helper = new MapTableRowHelper(
-				doshaTableColumnMetaData);
-
-		if (doshaTableData == null) {
-
-			List<TableRowData> rows = new ArrayList<TableRowData>();
-
-
-			for(Planet p : Planet.doshaPlanets()){
-				rows.add(helper.createRow(p, this.boyDosha
-						.get(p), this.girlDosha
-						.get(p)));
-			}
-
-
-			rows.add(helper.createRow(DisplayStrings.TOTAL_STR, this.bDoshaTotal, this.gDoshaTotal));
-
-			doshaTableData = TableDataFactory.getTableData(rows);
-
-		}
-		return doshaTableData;
-	}
-
-	public static ColumnMetaData getDoshaTableColumnMetaData() {
-
-		return doshaTableColumnMetaData;
-	}
-
-	public void doExport(Exporter e) {
-		e.export(this);
-	}
 
 	public String getTitle(){
 		return "Compactibility Report of " + boyName + " and " + girlName;
-	}
-
-	public String createDocumentName() {
-
-		return AstroSoft.getPreferences().getAstrosoftFilesDir() + boyName + "_" + girlName + "_" + "_Compactibility.pdf";
 	}
 
 	public static void main(String[] args) {

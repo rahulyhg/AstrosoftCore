@@ -12,14 +12,13 @@ import java.util.Set;
 
 import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
+
 import app.astrosoft.util.Utils;
 
 public abstract class AbstractChartData implements ChartData {
 
 	protected String chartName;
 
-	protected DefaultColumnMetaData colMetaData;
 
 	protected Rasi ascendant;
 
@@ -29,8 +28,6 @@ public abstract class AbstractChartData implements ChartData {
 	}
 
 	public AbstractChartData() {
-		colMetaData = getHouseTableColMetaData();
-		colMetaData.localizeColumns();
 	}
 
 	public String getChartName() {
@@ -46,7 +43,7 @@ public abstract class AbstractChartData implements ChartData {
 
 		for(Rasi r : Rasi.values()){
 			sb.append(r + " : \n");
-			sb.append(Utils.printTableData(getChartHouseTable(r)));
+			sb.append("TODO");
 			sb.append("\n");
 		}
 
@@ -62,5 +59,4 @@ public abstract class AbstractChartData implements ChartData {
 		return ascendant;
 	}
 
-	public abstract DefaultColumnMetaData getHouseTableColMetaData();
 }

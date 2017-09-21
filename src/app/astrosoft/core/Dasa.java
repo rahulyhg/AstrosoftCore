@@ -11,13 +11,10 @@ import java.util.GregorianCalendar;
 import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 
-import app.astrosoft.consts.Planet;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.AstroUtil;
 
-public interface Dasa extends TableRowData {
+public interface Dasa {
 
 	public static double today = AstroUtil.dateToDecimalYear(new GregorianCalendar());
 	

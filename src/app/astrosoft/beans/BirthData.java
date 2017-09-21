@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 import app.astrosoft.consts.Sex;
 import app.astrosoft.consts.WeekDay;
 import app.astrosoft.consts.XmlConsts;
-import app.astrosoft.export.XMLHelper;
+
 import app.astrosoft.util.AstroUtil;
 import swisseph.SweDate;
 
@@ -150,28 +150,6 @@ public class BirthData {
 	
 	public Sex sex(){
 		return sex;
-	}
-	
-	public Element toXMLElement(Document doc, String elementName){
-		
-		Element bdElement = doc.createElement(elementName);
-		
-		XMLHelper.addElement(doc, bdElement, XmlConsts.Name, this.personName);
-		
-		if (this.sex != null){
-			XMLHelper.addElement(doc, bdElement, XmlConsts.Sex, this.sex.name());
-		}
-		
-		XMLHelper.addElement(doc, bdElement, XmlConsts.DateTime, AstroUtil.formatDateTime(this.birthDay.getTime()));
-		
-		bdElement.appendChild(birthPlace.toXMLElement(doc));
-		
-		return bdElement;
-		
-	}
-	
-	public Element toXMLElement(Document doc){
-		return toXMLElement(doc, XmlConsts.BirthData);
 	}
 	
 	

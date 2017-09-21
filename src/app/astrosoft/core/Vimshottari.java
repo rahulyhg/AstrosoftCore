@@ -28,15 +28,9 @@ import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.core.VimDasa.DasaIterator;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.AstroUtil;
 
-public class Vimshottari implements Exportable {
+public class Vimshottari {
 
 	public static final int MAX_LEVEL = 3;
 
@@ -52,8 +46,7 @@ public class Vimshottari implements Exportable {
 	
 	private DefaultMutableTreeNode root;
 	
-	private static DefaultColumnMetaData vimDasaTableColumnMetaData;
-	
+
 	public Vimshottari(double moonLongitude, Calendar bday) {
 		
 		startLord = getDasaLord(moonLongitude);
@@ -197,24 +190,7 @@ public class Vimshottari implements Exportable {
 		return sb.toString();
 	}
 	
-	public TableData<Dasa> getVimDasaTableData(Dasa dasa){
-		
-		return TableDataFactory.getTableData(dasa.subDasas());
-	}
-	
-	public TableData<Dasa> getVimDasaTableData() {
-		
-		return TableDataFactory.getTableData(dasas());
-	}
-	
-	public static DefaultColumnMetaData getVimDasaTableColumnMetaData() {
-		
-		if (vimDasaTableColumnMetaData == null){
-			vimDasaTableColumnMetaData = new DefaultColumnMetaData(AstrosoftTableColumn.Dasa, AstrosoftTableColumn.Start, AstrosoftTableColumn.End);
-			vimDasaTableColumnMetaData.localizeColumns(AstrosoftTableColumn.Dasa);
-		}
-		return vimDasaTableColumnMetaData;
-	}
+
 	
 	public Planet getStartLord() {
 		return startLord;
@@ -223,31 +199,21 @@ public class Vimshottari implements Exportable {
 	public static void main(String[] args) {
 
 		Vimshottari v = new Vimshottari(300 + ( 59.00 / 60.00 ), new GregorianCalendar(1980, Calendar.DECEMBER, 11));
-		//v.getDasa().get(Planet.Rahu).getSubDasas();
-		//v.getDasa().get(Planet.Venus).getSubDasas().get(Planet.Venus).getSubDasas();
-		//System.out.println(v);
-		//System.out.println("Current:-> " + v.getCurrent());
-		
+
 		EnumMap<Planet, Dasa> dasa = v.getDasa();
 		
 		for(Planet p : Planet.dasaLords(v.getStartLord())){
 			
 			Dasa d = dasa.get(p);
 			for(Dasa sb : d.subDasas()) {
-				System.out.println(TableDataFactory.toCSV(v.getVimDasaTableData(sb),getVimDasaTableColumnMetaData()));
+		//		System.out.println(TableDataFactory.toCSV(v.getVimDasaTableData(sb),getVimDasaTableColumnMetaData()));
 				System.out.println("**********************************************************");
 			}
 			System.out.println("---------------------------------------------------------");
 		}
 		
-		//System.out.println(TableDataFactory.toCSV(v.getVimDasaTableData(),getVimDasaTableColumnMetaData()));
-		
 		//System.out.println(v.printDasaTree());
 		
-	}
-
-	public void doExport(Exporter e) {
-		e.export(this);
 	}
 
 	

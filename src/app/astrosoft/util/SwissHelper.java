@@ -17,7 +17,7 @@ import app.astrosoft.consts.Ayanamsa;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.core.Ephemeris.EphData;
-import app.astrosoft.ui.AstroSoft;
+import app.astrosoft.pref.AstrosoftPref;
 import swisseph.DblObj;
 import swisseph.SweConst;
 import swisseph.SweDate;
@@ -54,7 +54,7 @@ public class SwissHelper {
 	
 	public SwissHelper() {
 		sw = new SwissEph();
-		sw.swe_set_sid_mode(AstroSoft.getPreferences().getAyanamsa().ayaValue(), 0.0, 0.0);
+		sw.swe_set_sid_mode(AstrosoftPref.get().getAyanamsa().ayaValue(), 0.0, 0.0);
 	}
 
 	public void setSweDate(SweDate sweDate) {

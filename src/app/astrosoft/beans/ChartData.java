@@ -10,12 +10,10 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.ui.table.Table;
+
 
 public interface ChartData {
 
-	public Table getChartHouseTable(Rasi rasi);
-	
 	public Set<Rasi> getHouses();
 
 	public String getChartName();

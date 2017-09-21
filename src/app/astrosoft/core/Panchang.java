@@ -38,17 +38,8 @@ import app.astrosoft.consts.Thithi;
 import app.astrosoft.consts.Varga;
 import app.astrosoft.consts.WeekDay;
 import app.astrosoft.consts.Yoga;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
+
 import app.astrosoft.pref.AstrosoftPref;
-import app.astrosoft.ui.AstroSoft;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.DefaultTable;
-import app.astrosoft.ui.table.MapTableRow;
-import app.astrosoft.ui.table.MapTableRowHelper;
-import app.astrosoft.ui.table.Table;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.Mod;
 import app.astrosoft.util.SwissHelper;
@@ -59,7 +50,7 @@ import swisseph.*;
 
 public class Panchang {
 
-    private static final AstrosoftPref preferences = AstroSoft.getPreferences();
+    private static final AstrosoftPref preferences = AstrosoftPref.get();
 	private static final double PAN_APPROXIMATION = 0.01;
     
 	private SwissHelper swissHelper;
@@ -83,9 +74,7 @@ public class Panchang {
     private EnumMap<Planet, Integer> rasi;
     private EnumMap<Planet, Boolean> dir;
     
-    private static DefaultColumnMetaData panchangColumnMetaData;
-	
-	public static final int AUS_TIME_ROW = 9;
+   public static final int AUS_TIME_ROW = 9;
 
     /** Creates a new instance of Panchang */
     public Panchang(Calendar cal ) {
@@ -328,44 +317,7 @@ public class Panchang {
 		return cal;
 	};
 	
-	private static DefaultColumnMetaData getPanchangColumnMetaData() {
-		
-		if (panchangColumnMetaData == null){
-			panchangColumnMetaData = new DefaultColumnMetaData(AstrosoftTableColumn.keyvalCols());
-			panchangColumnMetaData.localizeColumns();
-		}
-		return panchangColumnMetaData;
-	}
-	
-	public TableData<MapTableRow> getPanchangTableData() {
-		
-		List<MapTableRow> rows = new ArrayList<MapTableRow>();
-		
-		MapTableRowHelper helper = new MapTableRowHelper(getPanchangColumnMetaData());
-		
-		rows.add(helper.createRow(DisplayStrings.DATE_STR, AstroUtil.formatDate(cal.getTime())));
-		rows.add(helper.createRow(DisplayStrings.DAY_STR, weekday));
-		rows.add(helper.createRow(DisplayStrings.NAK_STR + " ( " + AstrosoftTableColumn.End.toString() + " ) ", nakshathra));
-		rows.add(helper.createRow(DisplayStrings.THITHI_STR + " ( " + AstrosoftTableColumn.End.toString() + " ) ", thithi));
-		rows.add(helper.createRow(DisplayStrings.PAKSHA_STR, pak));
-		rows.add(helper.createRow(DisplayStrings.YOGA_STR + " ( " + AstrosoftTableColumn.End.toString() + " ) ", yoga));
-		rows.add(helper.createRow(DisplayStrings.KARANA_STR + " ( " + AstrosoftTableColumn.End.toString() + " ) ", karana));
-		rows.add(helper.createRow(DisplayStrings.SUNRISE_STR, AstroUtil.timeFormat(sunrise)));
-		rows.add(helper.createRow(DisplayStrings.SUNSET_STR, AstroUtil.timeFormat(sunset)));
-		String auspiciousTime = Arrays.toString(auspiciousTime());
-		rows.add(helper.createRow(DisplayStrings.AUS_TIME_STR, auspiciousTime.substring(1, auspiciousTime.length() - 1)));
-		rows.add(helper.createRow(DisplayStrings.RAHU_KALA_STR, rahuKala()));
-		rows.add(helper.createRow(DisplayStrings.YAMA_KANDA_STR, yamaKanda()));
-		
-		return TableDataFactory.getTableData(rows);
-	}
-	
-	public Table getPanchangTable() {
-		
-		return new DefaultTable(getPanchangTableData(), getPanchangColumnMetaData());
-		
-	}
-	
+
 	public ChartData getPlanetChartData(){
 		
 		return new PlanetChartData(Varga.Rasi, rasi, dir);

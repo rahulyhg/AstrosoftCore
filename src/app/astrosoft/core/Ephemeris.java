@@ -26,15 +26,6 @@ import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Month;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.pref.AstrosoftPref;
-import app.astrosoft.ui.AstroSoft;
-import app.astrosoft.ui.table.ColumnMetaData;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.MapTableRow;
-import app.astrosoft.ui.table.MapTableRowHelper;
-import app.astrosoft.ui.table.Table;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.SwissHelper;
 import app.astrosoft.util.Timer;
@@ -71,8 +62,8 @@ public class Ephemeris implements PreferenceChangeListener {
 		}
 	};
 
-	private static AstrosoftPref preferences = AstroSoft.getPreferences();
-	
+	private static AstrosoftPref preferences = AstrosoftPref.get();
+
 	private Calendar cal;
     private List<EnumMap<Planet, EphData>> ephemeris;
     
@@ -144,73 +135,7 @@ public class Ephemeris implements PreferenceChangeListener {
     	return cal;
     }
     
-    public Table getEphemerisTable(){
-        
-    	List<AstrosoftTableColumn> cols = Planet.toTableColumn(Planet.allPlanets());
-    	
-    	if (mode.isDaily()){
-    		cols.add(0, AstrosoftTableColumn.Date);
-    	}else{
-    		cols.add(0, AstrosoftTableColumn.Month);
-    	}
-    	
-    	final DefaultColumnMetaData colMetaData = new DefaultColumnMetaData(cols){
-    		@Override
-    		public Class getColumnClass(AstrosoftTableColumn col) {
-    			
-    			if (col == AstrosoftTableColumn.Date){
-					return Integer.class;
-				}else if (col == AstrosoftTableColumn.Month){
-					return String.class;
-				}
-    			return EphData.class;
-    		}
-    	};
-    	
-    	
-    	colMetaData.localizeColumns();
-    	
-    	Table ephTable = new Table(){
 
-			public TableData<TableRowData> getTableData() {
-				return new TableData<TableRowData>(){
-
-					EnumMap<Planet, EphData> row;
-					public TableRowData getRow(final int index) {
-						
-						row = ephemeris.get(index);
-						return new TableRowData(){
-
-							public Object getColumnData(AstrosoftTableColumn col) {
-								
-								if (col == AstrosoftTableColumn.Date){
-									return index + 1;
-								}else if (col == AstrosoftTableColumn.Month){
-									return Month.ofIndex(index).toString(DisplayFormat.FULL_NAME);
-								}
-								return row.get(Planet.valueOf(col.name()));
-							}
-							
-						};
-					}
-
-					public int getRowCount() {
-						
-						return ephemeris.size();
-					}
-					
-				};
-			}
-
-			public ColumnMetaData getColumnMetaData() {
-				return colMetaData;
-			}
-    		
-    	};
-    	
-    	return ephTable;
-    }
-    
     public void preferenceChange(PreferenceChangeEvent evt) {
 
 		if(evt.getKey().equals(AstrosoftPref.Preference.Ayanamsa.name())){

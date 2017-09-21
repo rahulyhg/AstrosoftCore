@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
@@ -24,6 +25,10 @@ import app.astrosoft.util.AstroUtil;
 public class AstrosoftPref {
 
 	private static final Logger log = Logger.getLogger(AstrosoftPref.class.getName());
+
+	private static class AstrosoftPrefHolder {
+	    private static final AstrosoftPref INSTANCE = new AstrosoftPref();
+    }
 
 	public static enum Preference {
 
@@ -43,7 +48,7 @@ public class AstrosoftPref {
 
 	Preferences root = Preferences.systemNodeForPackage(AstrosoftPref.class);
 
-	public AstrosoftPref() {
+	private AstrosoftPref() {
 
 		if (System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0) {
 			defaultAstrosoftFilesDir = defaultAstrosoftFilesDir + File.separator + "My Documents" + File.separator;
@@ -54,6 +59,10 @@ public class AstrosoftPref {
 			setDefaults();
 		}
 	}
+
+	public static AstrosoftPref get(){
+	    return AstrosoftPrefHolder.INSTANCE;
+    }
 
 	public void setLanguage(Language language) {
 		root.put(Preference.Language.name(), language.name());

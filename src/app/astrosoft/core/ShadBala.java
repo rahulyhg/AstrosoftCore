@@ -34,18 +34,15 @@ import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.Roman;
 import app.astrosoft.consts.Varga;
 import app.astrosoft.consts.Planet.Character;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableRowData;
+
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.ComparableEntry;
 import app.astrosoft.util.Mod;
 import app.astrosoft.util.SwissHelper;
 import app.astrosoft.util.Utils;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
 
-public class ShadBala implements Exportable {
+
+public class ShadBala  {
 
 	private static final Logger log = Logger.getLogger(ShadBala.class.getName());
 
@@ -150,17 +147,6 @@ public class ShadBala implements Exportable {
 	private EnumMap<Planet, Integer> ShadBalaRank;
 	private ArrayList<Integer> BhavaBalaRank;
 
-	private TableData<PlanetBalaRow> planetBalaTableData;
-
-	private DefaultColumnMetaData planetBalaColumnMetaData;
-
-	private DefaultColumnMetaData sthanaBalaColumnMetaData;
-
-	private DefaultColumnMetaData kalaBalaColumnMetaData;
-
-	private TableData<BhavaBalaRow> bhavaBalaTableData;
-
-	private DefaultColumnMetaData bhavaBalaColumnMetaData;
 
 	/**
 	 * Creates a new instance of ShadBala
@@ -1559,257 +1545,7 @@ public class ShadBala implements Exportable {
 	public Map<Planet, Double> getStrengthPer() {
 		return StrengthPer;
 	}
-	
-	public TableData<PlanetBalaRow> getPlanetBalaTableData() {
 
-		if (planetBalaTableData == null) {
-			planetBalaTableData = new PlanetBalaTableData();
-		}
-		return planetBalaTableData;
-	}
-
-	public DefaultColumnMetaData getPlanetBalaColumnMetaData() {
-
-		if (planetBalaColumnMetaData == null) {
-			planetBalaColumnMetaData = new PlanetBalaColumnMetaData(Bala
-					.planetBalas(), AstrosoftTableColumn.ShadBala,
-					AstrosoftTableColumn.Rupa,
-					AstrosoftTableColumn.BalaPercentage,
-					AstrosoftTableColumn.Rank, AstrosoftTableColumn.IshtaBala,
-					AstrosoftTableColumn.KashtaBala){
-
-
-				@Override
-				public Comparator getColumnComparator(final AstrosoftTableColumn col) {
-
-
-					return new Comparator(){
-
-						public int compare(Object o1, Object o2) {
-
-							if(sortableColumns.contains(col)) {
-								Comparable r1 = (Comparable)((PlanetBalaRow)o1).getColumnData(col);
-								Comparable r2 = (Comparable)((PlanetBalaRow)o2).getColumnData(col);
-
-								if (r1 == null && r2 ==null){
-									return 0;
-								}else if (r1 == null){
-									return -1;
-								}else if (r2 == null){
-									return 1;
-								}else {
-									return r1.compareTo(r2);
-								}
-							}else{
-								return 0;
-							}
-						}
-
-					};
-				}
-
-			};
-			planetBalaColumnMetaData.setSortableColumns(AstrosoftTableColumn.Planet, AstrosoftTableColumn.ResidentialStrength, AstrosoftTableColumn.Rank, AstrosoftTableColumn.KashtaBala, AstrosoftTableColumn.IshtaBala);
-		}
-		return planetBalaColumnMetaData;
-	}
-
-	public TableData<BhavaBalaRow> getBhavaBalaTableData() {
-
-		if (bhavaBalaTableData == null) {
-			bhavaBalaTableData = new BhavaBalaTableData();
-		}
-		return bhavaBalaTableData;
-	}
-
-	public DefaultColumnMetaData getBhavaBalaColumnMetaData() {
-
-		if (bhavaBalaColumnMetaData == null) {
-			List<AstrosoftTableColumn> cols = Bala.toTableColumn(Bala
-					.bhavaBalas());
-			cols.add(0, AstrosoftTableColumn.House);
-			cols.add(1,AstrosoftTableColumn.Bhava);
-			cols.add(AstrosoftTableColumn.BhavaBala);
-			cols.add(AstrosoftTableColumn.Rupa);
-			cols.add(AstrosoftTableColumn.Rank);
-			bhavaBalaColumnMetaData = new DefaultColumnMetaData(cols) {
-				@Override
-				public Class getColumnClass(AstrosoftTableColumn col) {
-
-					switch (col) {
-						case House :
-						case Rank:
-							return Roman.class;
-						case Bhava:
-							return Bhava.class;
-					}
-					return Number.class;
-				}
-
-				@Override
-				public Comparator getColumnComparator(final AstrosoftTableColumn col) {
-
-
-					return new Comparator(){
-
-						public int compare(Object o1, Object o2) {
-
-							if (sortableColumns.contains(col)){
-
-								Comparable r1 = (Comparable)((BhavaBalaRow)o1).getColumnData(col);
-								Comparable r2 = (Comparable)((BhavaBalaRow)o2).getColumnData(col);
-								return r1.compareTo(r2);
-							}else{
-								return 0;
-							}
-						}
-
-					};
-				}
-			};
-			bhavaBalaColumnMetaData.localizeColumns();
-			bhavaBalaColumnMetaData.setSortableColumns(AstrosoftTableColumn.Bhava, AstrosoftTableColumn.Rank);
-		}
-		return bhavaBalaColumnMetaData;
-	}
-
-	public DefaultColumnMetaData getSthanaBalaColumnMetaData() {
-
-		if (sthanaBalaColumnMetaData == null) {
-			sthanaBalaColumnMetaData = new PlanetBalaColumnMetaData(Bala
-					.sthanaBalas(), AstrosoftTableColumn.SthanaBala);
-		}
-		return sthanaBalaColumnMetaData;
-	}
-
-	public DefaultColumnMetaData getKalaBalaColumnMetaData() {
-
-		if (kalaBalaColumnMetaData == null) {
-			kalaBalaColumnMetaData = new PlanetBalaColumnMetaData(Bala
-					.kalaBalas(), AstrosoftTableColumn.KalaBala);
-		}
-		return kalaBalaColumnMetaData;
-	}
-
-	private class PlanetBalaColumnMetaData extends DefaultColumnMetaData {
-
-		public PlanetBalaColumnMetaData(EnumSet<Bala> balas,
-				AstrosoftTableColumn... otherCols) {
-			List<AstrosoftTableColumn> cols = Bala.toTableColumn(balas);
-			cols.add(0, AstrosoftTableColumn.Planet);
-			for (AstrosoftTableColumn col : otherCols) {
-				cols.add(col);
-			}
-			super.addColumns(cols);
-			localizeColumns();
-		}
-
-		@Override
-		public Class getColumnClass(AstrosoftTableColumn col) {
-
-			switch (col) {
-				case Planet :
-					return Planet.class;
-				case Rank:
-					return Roman.class;
-
-			}
-			return Number.class;
-		}
-	}
-
-	private class PlanetBalaTableData implements TableData<PlanetBalaRow> {
-
-		public PlanetBalaRow getRow(int index) {
-
-			return new PlanetBalaRow(Planet.values()[index]);
-		}
-
-		public int getRowCount() {
-			return 9;
-		}
-
-	}
-
-	private class PlanetBalaRow implements TableRowData {
-
-		Planet row;
-
-		public PlanetBalaRow(Planet row) {
-			this.row = row;
-		}
-
-		public Object getColumnData(AstrosoftTableColumn col) {
-
-			if (col == AstrosoftTableColumn.Planet) {
-				return row;
-			} else if (col == AstrosoftTableColumn.Rupa) {
-				Double val = PlanetBala.get(Bala.ShadBala).get(row);
-				if (val != null){
-					return val / 60.00;
-				}else{
-					return null;
-				}
-			} else if (col == AstrosoftTableColumn.BalaPercentage) {
-				return StrengthPer.get(row);
-			} else if (col == AstrosoftTableColumn.Rank) {
-
-				Integer rank = ShadBalaRank.get(row);
-
-				if (rank != null)
-					return Roman.of(ShadBalaRank.get(row));
-				else
-					return null;
-			} else {
-				Bala b = col.toEnum(Bala.class);
-				return PlanetBala.get(b).get(row);
-			}
-		}
-
-	}
-
-	private class BhavaBalaTableData implements TableData<BhavaBalaRow> {
-
-		public BhavaBalaRow getRow(int index) {
-
-			return new BhavaBalaRow(index);
-		}
-
-		public int getRowCount() {
-			return 12;
-		}
-
-	}
-
-	private class BhavaBalaRow implements TableRowData {
-
-		int bhava;
-
-		public BhavaBalaRow(int row) {
-			this.bhava = row;
-		}
-
-		public Object getColumnData(AstrosoftTableColumn col) {
-
-			if (col == AstrosoftTableColumn.House ){
-				return Roman.of(bhava + 1);
-			} else if (col == AstrosoftTableColumn.Bhava) {
-				return housePosition.getBhava(bhava + 1).house();
-			} else if (col == AstrosoftTableColumn.Rupa) {
-				return BhavaBala.get(Bala.BhavaBala).get(bhava) / 60.00;
-			} else if (col == AstrosoftTableColumn.Rank) {
-				return Roman.of(BhavaBalaRank.get(bhava));
-			} else {
-				Bala b = col.toEnum(Bala.class);
-				return BhavaBala.get(b).get(bhava);
-			}
-		}
-
-	}
-
-	public void doExport(Exporter e) {
-		e.export(this);
-	}
 
 	@Override
 	public String toString() {

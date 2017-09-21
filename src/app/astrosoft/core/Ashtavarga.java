@@ -18,19 +18,9 @@ import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
-import app.astrosoft.ui.table.ColumnMetaData;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.MapTableRow;
-import app.astrosoft.ui.table.MapTableRowHelper;
-import app.astrosoft.ui.table.Table;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
 
 
-public class Ashtavarga implements Exportable {
+public class Ashtavarga {
 
     private static int[] one =
         {
@@ -461,38 +451,7 @@ public class Ashtavarga implements Exportable {
     
 	}
     
-    public Table getGunaTable(final AshtavargaName ashtavargaName){
-    
-    	final DefaultColumnMetaData colMetaData = new DefaultColumnMetaData(AstrosoftTableColumn.keyvalCols());
-    	colMetaData.localizeColumns();
-    	
-    	MapTableRowHelper helper = new MapTableRowHelper(colMetaData);
-    	
-    	List<MapTableRow> rows = new ArrayList<MapTableRow>();
-    	
-    	int rasiGunaVal = rasiGuna.get(ashtavargaName);
-		int grahaGunaVal = grahaGuna.get(ashtavargaName);
-		
-    	rows.add(helper.createRow(DisplayStrings.RASI_GUNA_STR, rasiGunaVal));
-    	rows.add(helper.createRow(DisplayStrings.GRAHA_GUNA_STR, grahaGunaVal));
-    	rows.add(helper.createRow(DisplayStrings.SUTHDHA_BINDU_STR, (rasiGunaVal + grahaGunaVal)));
-    	
-    	final TableData<MapTableRow> data = TableDataFactory.getTableData(rows);
-    	
-    	Table gunaTable = new Table(){
 
-			public TableData<? extends TableRowData> getTableData() {
-				return data;
-			}
-
-			public ColumnMetaData getColumnMetaData() {
-				return colMetaData;
-			}
-    		
-    	};
-    	
-    	return gunaTable;
-    }
     
     public EnumMap<Rasi, Integer> getAshtavarga(AshtavargaName name) {
 		return ashtavarga.get(name);
@@ -576,8 +535,5 @@ public class Ashtavarga implements Exportable {
 
     }
 
-	public void doExport(Exporter e) {
-		e.export(this);
-	}
 
 }

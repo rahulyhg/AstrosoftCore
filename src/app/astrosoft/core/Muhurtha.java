@@ -19,10 +19,7 @@ import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.MuhurthaRank;
 import app.astrosoft.consts.Nakshathra;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.ui.AstroSoft;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableDataFactory;
-import app.astrosoft.ui.table.TableRowData;
+
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.MuhurthaHelper;
 
@@ -164,27 +161,6 @@ public class Muhurtha {
 	}
 
 
-	public TableData<? extends TableRowData> getNextTransitPeriods() {
-
-		MuhurthaHelper muhurthaHelper = new MuhurthaHelper(favLogitudes);
-
-		endJulDay = AstroUtil.incJulDate(startJulDay, 0, incPeriod, 0);
-
-		Interval period = new Interval(startJulDay, endJulDay);
-		List <MuhurthaBean>muhurthaList = muhurthaHelper.getTransists(period);
-		//System.out.println(muhurthaList);
-
-		//Collections.sort(muhurthaList, MuhurthaBean.getComparator(AstrosoftTableColumn.Period), false);
-
-		//System.out.println(muhurthaList);
-
-		//Collections.sort(muhurthaList, MuhurthaBean.getComparator(AstrosoftTableColumn.Rank));
-
-		//System.out.println(muhurthaList);
-		startJulDay = endJulDay;
-
-		return TableDataFactory.getTableData(muhurthaList);
-	}
 
 	public void printFavLongitudes(){
 		
@@ -206,8 +182,7 @@ public class Muhurtha {
 		Muhurtha m = new Muhurtha(new GregorianCalendar(2005, 11,01), Rasi.Vrishabha, Nakshathra.Rohini, false, true);
 		m.calcMuhurtha();
 		m.printFavLongitudes();
-		System.out.println(m.getNextTransitPeriods());
-		
+
 		/*EnumMap <MuhurthaRank, List<Interval>>  longs = new EnumMap(MuhurthaRank.class);
 		List<Interval> l = new ArrayList<Interval>();
 		

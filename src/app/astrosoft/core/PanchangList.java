@@ -12,11 +12,10 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import app.astrosoft.core.Ephemeris.Mode;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
+
 import app.astrosoft.util.AstroUtil;
 
-public class PanchangList implements Iterable<Panchang>, Exportable {
+public class PanchangList implements Iterable<Panchang> {
 
 	private Calendar cal;
     
@@ -71,10 +70,7 @@ public class PanchangList implements Iterable<Panchang>, Exportable {
 		return new PanchangIterator(cal,mode);
 	}
 	
-	public void doExport(Exporter e) {
-		e.export(this);
-		
-	}
+
 	
 	public static void main(String[] args) {
 		PanchangList pl = new PanchangList(2007);

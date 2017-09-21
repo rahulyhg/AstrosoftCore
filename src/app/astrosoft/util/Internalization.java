@@ -28,7 +28,7 @@ import app.astrosoft.consts.Paksha;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.Thithi;
 import app.astrosoft.pref.AstrosoftPref;
-import app.astrosoft.ui.AstroSoft;
+
 
 public class Internalization  {
 
@@ -187,7 +187,7 @@ public class Internalization  {
 		setPreferedLanguate();*/
 		
 		//setLanguage(language);
-		return  getString(AstroSoft.getPreferences().getLanguage(), key);
+		return  getString(AstrosoftPref.get().getLanguage(), key);
 		//setPreferedLanguate(Ast);
 		//return str;
 	}

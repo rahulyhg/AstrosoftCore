@@ -19,8 +19,7 @@ import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
-import app.astrosoft.ui.AstroSoft;
-import app.astrosoft.ui.table.TableRowData;
+
 import app.astrosoft.util.AstroUtil;
 
 public class VimDasa extends AbstractDasa {

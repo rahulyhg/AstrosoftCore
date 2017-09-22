@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
-import antlr.collections.AST;
+
 import app.astrosoft.consts.*;
 import swisseph.SweDate;
 import app.astrosoft.beans.BirthData;

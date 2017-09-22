@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import app.astrosoft.pref.AstrosoftPref;
 import swisseph.SweDate;
 import app.astrosoft.beans.Place;
 import app.astrosoft.consts.Alphabet;
@@ -20,7 +21,7 @@ import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Language;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.ui.AstroSoft;
+
 
 import com.web_tomorrow.utils.suntimes.SunTimes;
 import com.web_tomorrow.utils.suntimes.Time;
@@ -444,7 +445,7 @@ public class AstroUtil {
     * @return
     */
    public static Calendar getCalendar(){
-	   return getCalendar(AstroSoft.today.getTime());
+	   return getCalendar(new GregorianCalendar(AstrosoftPref.get().getPlace().astrosoftTimeZone().getTimeZone()).getTime());
    }
    
    public static Date doubleTimeToDate(double time){

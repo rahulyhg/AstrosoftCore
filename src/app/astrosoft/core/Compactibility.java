@@ -8,6 +8,7 @@
 package app.astrosoft.core;
 
 import java.util.EnumMap;
+import java.util.Map;
 
 import app.astrosoft.beans.BirthData;
 import app.astrosoft.beans.PlanetaryInfo;
@@ -1219,17 +1220,10 @@ public class Compactibility  {
 
 	public static void main(String[] args) {
 
-		/*
-		 * Horoscope b = new
-		 * Horoscope("Raja",11,12,1980,1,44,77+(44.00/60.00),11+(22.00/60.00),5.5,"Erode");
-		 * Horoscope g = new
-		 * Horoscope("V",6,7,1983,2,25,77+(44.00/60.00),11+(22.00/60.00),5.5,"Erode");
 
 		Horoscope b = new Horoscope("Elango", 17, 4, 1957, 7, 10,
 				77 + (44.00 / 60.00), 11 + (22.00 / 60.00), 5.5, "Erode");
 
-		// Horoscope b = new
-		// Horoscope("Venkat",29,10,1978,18,0,77+(44.00/60.00),11+(22.00/60.00),5.5,"Erode");
 		Horoscope g = new Horoscope("Mani", 10, 8, 1960, 5, 30,
 				77 + (44.00 / 60.00), 11 + (22.00 / 60.00), 5.5, "Erode");
 
@@ -1251,63 +1245,11 @@ public class Compactibility  {
 		for (Map.Entry e : c.girlDosha.entrySet()) {
 			System.out.println(e.getKey() + " : " + e.getValue());
 		}
-		*/
-		int cnt = 0;
 
-		for (int r1 = 0; r1 < 12; r1++) {
-
-			int s1 = (r1 / 4) + (r1 * 2);
-
-			for (int c1 = s1; c1 < (s1 + 3); c1++) {
-
-				System.out.print(Nakshathra.ofIndex(c1) + " , ");
-
-			//	if (Rasi.ofIndex(r1).equals(Rasi.Makara) && Nakshathra.ofIndex(c1).equals(Nakshathra.Uththiradam)) {
-				if (Rasi.ofIndex(r1).equals(Rasi.Kataka) && Nakshathra.ofIndex(c1).equals(Nakshathra.Ayilyam)) {
-				for (int r2 = 0; r2 < 12; r2++) {
-
-					int s2 = (r2 / 4) + (r2 * 2);
-
-					for (int c2 = s2; c2 < (s2 + 3); c2++) {
-
-						// System.out.println(cnt++ + " - [ " + r1 + " , " + c1
-						// + " ] [ " + r2 + " , " + c2 + " ]");
-						Compactibility c = new Compactibility(null, null, Nakshathra
-								.ofIndex(c1), Nakshathra.ofIndex(c2), Rasi
-								.ofIndex(r1), Rasi.ofIndex(r2));
-
-
-						  /*for (Kuta k : Kuta.values()) {
-
-							  System.out.print(c.kutas.get(k) + "\n");
-						  }*/
-
-						System.out.print(c.totalKutaGained+ " , ");
-						//System.out.print(",");
-
-						/*if (c.totalKutaGained >= 25){
-
-							if (c.totalKutaGained >= 30){
-								System.out.print("Very Good: ");
-							}else{
-								System.out.print("Good: ");
-							}
-							System.out.println( Rasi.ofIndex(r2) + " , " + Nakshathra.ofIndex(c2));
-
-						}*/
-
-					}
-
-				}
-				}
-
-				System.out.println();
-
-			}
 
 		}
 
-	}
+
 
 
 

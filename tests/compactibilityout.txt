@@ -1,0 +1,25 @@
+Dina Kuta: 3
+Gana Kuta: 6
+Mahendra Kuta: 0
+Stree Deergha Kuta: 1
+Yoni Kuta: 1
+Rasi Kuta: 7
+Rasi Adhipathi Kuta: 5
+Vasya Kuta: 0
+Rajju Kuta: 1
+Vedha Kuta: 1
+Varna Kuta: 1
+Nadi Kuta: 8
+Total Kutas: 34
+
+ Boy Dosha
+Sun : 0.0
+Mars : 40.0
+Saturn : 67.5
+Ra/Ke : 52.5
+
+ Girl Dosha
+Sun : 0.0
+Mars : 0.0
+Saturn : 0.0
+Ra/Ke : 101.25

@@ -14,7 +14,7 @@ import app.astrosoft.consts.Nakshathra;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.core.Muhurtha;
 
-
+//TODO refactor/remove
 public class MuhurthaTest {
 
 	public static void main(String[] args) {

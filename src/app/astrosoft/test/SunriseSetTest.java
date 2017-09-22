@@ -7,6 +7,8 @@ import app.astrosoft.beans.Place.Location;
 import app.astrosoft.beans.Place.Direction;
 import app.astrosoft.util.AstroUtil;
 
+//TODO refactor/remove
+
 public class SunriseSetTest {
 
 	public static void main(String[] args) {

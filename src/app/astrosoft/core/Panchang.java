@@ -340,7 +340,7 @@ public class Panchang {
 	
     public static void main( String[] args ) {
     	
-    	for(int i = 1; i <= 30 ; i++){
+    	for(int i = 1; i <= 5 ; i++){
 	        Panchang pan = new Panchang( new GregorianCalendar(2006, 9, i, 0, 0));
 	
 	        System.out.println(pan);

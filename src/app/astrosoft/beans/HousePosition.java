@@ -6,7 +6,6 @@
 
 package app.astrosoft.beans;
 
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.Roman;
 import app.astrosoft.util.AstroUtil;
@@ -61,25 +60,6 @@ public class HousePosition  {
 			return length;
 		}
 
-		public Object getColumnData(AstrosoftTableColumn col) {
-
-			switch (col) {
-				case House :
-					return Roman.of(bhava());
-				case Bhava:
-					return house;
-				case Start :
-					return start();
-				case Mid :
-					return mid();
-				case End :
-					return end();
-				case Length :
-					return length();
-				default :
-					return null;
-			}
-		}
 
 		@Override
 		public String toString() {

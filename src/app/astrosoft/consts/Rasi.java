@@ -7,7 +7,6 @@ package app.astrosoft.consts;
 
 import static app.astrosoft.consts.AstroConsts.*;
 import app.astrosoft.beans.Interval;
-import app.astrosoft.ui.util.CallBack;
 import app.astrosoft.util.Internalization;
 import app.astrosoft.util.Mod;
 

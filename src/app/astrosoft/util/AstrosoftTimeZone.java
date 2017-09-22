@@ -11,7 +11,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import app.astrosoft.consts.AstroConsts;
-import app.astrosoft.ui.AstroSoft;
 
 public class AstrosoftTimeZone {
 

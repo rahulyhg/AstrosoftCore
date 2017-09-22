@@ -309,17 +309,7 @@ public enum Planet {
 		}
 	}
 	
-	public static List<AstrosoftTableColumn> toTableColumn(Set<Planet> planets){
-		
-		List<AstrosoftTableColumn> cols = new ArrayList<AstrosoftTableColumn>();
-		
-		for(Planet p : planets){
-			cols.add(AstrosoftTableColumn.valueOf(p.name()));
-		}
-		
-		return cols;
-	}
-	
+
 	/*public static void setDisplayFormat(DisplayFormat formatter){
 		DisplayFormat.validateNameFormat(formatter);
 		displayFormat = formatter;

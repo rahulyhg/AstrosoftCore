@@ -13,9 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.XmlConsts;
-import app.astrosoft.export.XMLHelper;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.AstrosoftTimeZone;
 
@@ -222,27 +220,7 @@ public class Place {
 		return new Location(longitude, LocationType.Longitude);
 	}
 	
-	public Element toXMLElement(Document doc){
-		
-		Element placeElement = doc.createElement(XmlConsts.Place);
-		
-		Location longitudeLoc = longitudeLocation();
-		Location latitudeLoc = latitudeLocation();
-		
-		XMLHelper.addElement(doc, placeElement, XmlConsts.City, this.city);
-		
-		Element longitudeElement = XMLHelper.addElement(doc, placeElement, XmlConsts.Longitude, longitudeLoc.format());
-		XMLHelper.addAttribute(longitudeElement, XmlConsts.dir, longitudeLoc.dir().charVal());
-		
-		Element latitudeElement = XMLHelper.addElement(doc, placeElement, XmlConsts.Latitude, latitudeLoc.format());
-		XMLHelper.addAttribute(latitudeElement, XmlConsts.dir, latitudeLoc.dir().charVal());
-		
-		//TODO: Remove null check once GetInput is fixed.
-		XMLHelper.addElement(doc, placeElement, XmlConsts.TimeZone, this.timeZoneId != null ? this.timeZoneId : "IST");
-		
-		return placeElement;
-	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(Place.getDefault());
 	}

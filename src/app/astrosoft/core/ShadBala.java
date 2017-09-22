@@ -9,16 +9,11 @@ package app.astrosoft.core;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import app.astrosoft.beans.BirthData;
@@ -26,14 +21,11 @@ import app.astrosoft.beans.HousePosition;
 import app.astrosoft.beans.PlanetaryInfo;
 import app.astrosoft.beans.HousePosition.Bhava;
 import app.astrosoft.consts.AstroConsts;
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Ayanamsa;
 import app.astrosoft.consts.Paksha;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.consts.Roman;
 import app.astrosoft.consts.Varga;
-import app.astrosoft.consts.Planet.Character;
 
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.ComparableEntry;
@@ -101,14 +93,6 @@ public class ShadBala  {
 					YuddhaBala);
 		}
 
-		public static List<AstrosoftTableColumn> toTableColumn(
-				EnumSet<Bala> balas) {
-			List<AstrosoftTableColumn> cols = new ArrayList<AstrosoftTableColumn>();
-			for (Bala b : balas) {
-				cols.add(AstrosoftTableColumn.valueOf(b.name()));
-			}
-			return cols;
-		}
 	}
 
 

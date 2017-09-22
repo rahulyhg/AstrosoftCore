@@ -7,15 +7,12 @@
 package app.astrosoft.core;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
@@ -209,17 +206,6 @@ public class VimDasa extends AbstractDasa {
 
 		public void remove() {
 			throw new UnsupportedOperationException("remove is not supported");
-		}
-	}
-
-	
-	public Object getColumnData(AstrosoftTableColumn col) {
-		
-		switch(col){
-			case Dasa: return fullDasa();
-			case Start: return getStartDate();
-			case End: return getEndDate();
-			default : return null;
 		}
 	}
 	

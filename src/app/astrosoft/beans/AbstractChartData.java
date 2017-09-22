@@ -10,10 +10,7 @@ package app.astrosoft.beans;
 import java.util.EnumSet;
 import java.util.Set;
 
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Rasi;
-
-import app.astrosoft.util.Utils;
 
 public abstract class AbstractChartData implements ChartData {
 

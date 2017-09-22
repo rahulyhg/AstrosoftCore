@@ -8,14 +8,10 @@
  */
 package app.astrosoft.core;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Vector;
 
 import app.astrosoft.consts.AshtavargaName;
-import app.astrosoft.consts.AstrosoftTableColumn;
-import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 

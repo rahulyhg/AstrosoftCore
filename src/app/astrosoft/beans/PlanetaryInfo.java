@@ -14,24 +14,18 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import app.astrosoft.beans.HousePosition.Bhava;
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Paksha;
 import app.astrosoft.consts.Varga;
 import app.astrosoft.consts.Karaka;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.core.VargaCharts;
-import app.astrosoft.export.Exportable;
-import app.astrosoft.export.Exporter;
-import app.astrosoft.ui.table.DefaultColumnMetaData;
-import app.astrosoft.ui.table.TableData;
-import app.astrosoft.ui.table.TableRowData;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.ComparableEntry;
 import app.astrosoft.util.Mod;
 import app.astrosoft.util.Utils;
 
-public class PlanetaryInfo implements Exportable{
+public class PlanetaryInfo {
 
 	private static final Logger log = Logger.getLogger(PlanetaryInfo.class.getName());
 	
@@ -60,10 +54,6 @@ public class PlanetaryInfo implements Exportable{
 	// True means benefic... false means malefic
 	private Map<Planet, Boolean> planetCharacter;
 
-	private TableData<PlanetaryInfoRow> planateryInfoTableData;
-
-	private DefaultColumnMetaData planateryInfoColumnMetaData;
-	
 	private Mod mod = new Mod(12);
 
 	public PlanetaryInfo(EnumMap<Planet, Double> planetPosition,
@@ -195,7 +185,6 @@ public class PlanetaryInfo implements Exportable{
 	}
 
 	/**
-	 * @param planetNakshathra
 	 *            The planetNakshathra to set.
 	 */
 	public void setPlanetNakshathra(EnumMap<Planet, NakshathraPada> nakshathara) {
@@ -271,38 +260,7 @@ public class PlanetaryInfo implements Exportable{
 		return planetCharacter;
 	}
 
-	public TableData<PlanetaryInfoRow> getPlanateryInfoTableData() {
 
-		if (planateryInfoTableData == null) {
-			planateryInfoTableData = new PlanetaryInfoData();
-		}
-		return planateryInfoTableData;
-	}
-
-	public DefaultColumnMetaData getPlanateryInfoColumnMetaData() {
-
-		if (planateryInfoColumnMetaData == null) {
-			planateryInfoColumnMetaData = new DefaultColumnMetaData(
-					AstrosoftTableColumn.Planet,
-					AstrosoftTableColumn.Longitude, AstrosoftTableColumn.Rasi,
-					AstrosoftTableColumn.NakshathraPada,
-					AstrosoftTableColumn.JaiminiKaraka) {
-
-				@Override
-				public Class getColumnClass(AstrosoftTableColumn col) {
-
-					switch(col){
-						case Longitude: return Degree.class;
-					}
-					return super.getColumnClass(col);
-				}
-				
-			};
-			planateryInfoColumnMetaData.localizeColumns();
-			
-		}
-		return planateryInfoColumnMetaData;
-	}
 
 	@Override
 	public String toString() {
@@ -324,47 +282,8 @@ public class PlanetaryInfo implements Exportable{
 		return sb.toString();
 	}
 
-	private class PlanetaryInfoRow implements TableRowData {
 
-		Planet row;
 
-		public PlanetaryInfoRow(Planet row) {
-			this.row = row;
-		}
 
-		public Object getColumnData(AstrosoftTableColumn col) {
 
-			switch (col) {
-				case Planet :
-					return row;
-				case Longitude :
-					return planetPosition.get(row);
-				case Rasi :
-					return planetRasi.get(row);
-				case NakshathraPada :
-					return planetNakshathra.get(row);
-				case JaiminiKaraka :
-					return planetKaraka.get(row);
-			}
-			return null;
-		}
-	}
-
-	private class PlanetaryInfoData implements TableData<PlanetaryInfoRow> {
-
-		public PlanetaryInfoRow getRow(int index) {
-
-			return new PlanetaryInfoRow(Planet.values()[index]);
-		}
-
-		public int getRowCount() {
-
-			return 10;
-		}
-
-	}
-
-	public void doExport(Exporter e) {
-		e.export(this);
-	}
 }

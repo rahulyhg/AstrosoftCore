@@ -6,35 +6,19 @@
  */
 package app.astrosoft.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.logging.Logger;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
-import org.w3c.dom.Document;
-
+import antlr.collections.AST;
+import app.astrosoft.consts.*;
 import swisseph.SweDate;
 import app.astrosoft.beans.BirthData;
 import app.astrosoft.beans.HousePosition;
 import app.astrosoft.beans.NakshathraPada;
 import app.astrosoft.beans.Place;
 import app.astrosoft.beans.PlanetaryInfo;
-import app.astrosoft.consts.AstrosoftTableColumn;
-import app.astrosoft.consts.Ayanamsa;
-import app.astrosoft.consts.DisplayStrings;
-import app.astrosoft.consts.Paksha;
-import app.astrosoft.consts.Planet;
-import app.astrosoft.consts.Rasi;
-import app.astrosoft.consts.Sex;
-import app.astrosoft.consts.Thithi;
-import app.astrosoft.consts.Varga;
-import app.astrosoft.consts.Yoga;
 
 import app.astrosoft.pref.AstrosoftPref;
 import app.astrosoft.util.AstroUtil;
@@ -515,6 +499,8 @@ public class Horoscope implements  PreferenceChangeListener  {
 	}
 
 	public static void runTests(){
+
+		AstrosoftPref.get().setLanguage(Language.ENGLISH);
 
 		Horoscope h = new Horoscope("Raja", 11, 12, 1980, 1, 44,
 				77 + (44.00 / 60.00), 11 + (22.00 / 60.00), 5.5, "Erode");

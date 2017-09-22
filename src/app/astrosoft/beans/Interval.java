@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
 import app.astrosoft.consts.DisplayFormat;
-import app.astrosoft.ui.AstroSoft;
 import app.astrosoft.util.AstroUtil;
 import swisseph.SweDate;
 

@@ -8,27 +8,20 @@ package app.astrosoft.core;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
-import app.astrosoft.beans.Place;
-import app.astrosoft.consts.AshtavargaName;
-import app.astrosoft.consts.AstroConsts;
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Ayanamsa;
 import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
-import app.astrosoft.consts.Month;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.pref.AstrosoftPref;
 import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.SwissHelper;
-import app.astrosoft.util.Timer;
 
 import swisseph.*;
 

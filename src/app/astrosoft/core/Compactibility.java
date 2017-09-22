@@ -7,27 +7,16 @@
  */
 package app.astrosoft.core;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import app.astrosoft.beans.BirthData;
 import app.astrosoft.beans.PlanetaryInfo;
 import app.astrosoft.consts.AstroConsts;
-import app.astrosoft.consts.AstrosoftTableColumn;
-import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Kuta;
 import app.astrosoft.consts.Nakshathra;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
-import app.astrosoft.consts.XmlConsts;
 
-import app.astrosoft.util.AstroUtil;
 import app.astrosoft.util.FileOps;
 
 public class Compactibility  {

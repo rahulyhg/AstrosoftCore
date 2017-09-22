@@ -8,30 +8,14 @@ package app.astrosoft.beans;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.print.attribute.standard.Chromaticity;
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.events.XMLEvent;
-
-import app.astrosoft.consts.AstrosoftTableColumn;
-import app.astrosoft.consts.DisplayFormat;
-import app.astrosoft.consts.DisplayStrings;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.consts.Varga;
-import app.astrosoft.consts.XmlConsts;
 import app.astrosoft.core.Horoscope;
-
-import app.astrosoft.util.Utils;
 
 public class PlanetChartData extends AbstractChartData {
 

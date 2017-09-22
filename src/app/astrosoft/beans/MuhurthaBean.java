@@ -5,9 +5,6 @@
  */
 package app.astrosoft.beans;
 
-import java.util.Comparator;
-
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.DisplayFormat;
 import app.astrosoft.consts.MuhurthaRank;
 import app.astrosoft.consts.Nakshathra;
@@ -68,27 +65,6 @@ public class MuhurthaBean {
 		sb.append(nak + " ] ");
 		sb.append(rank + "\n");
 		return sb.toString();
-	}
-
-
-	public Object getColumnData(AstrosoftTableColumn col) {
-
-		switch (col) {
-
-			case Period:
-				return getPeriod().toString(DisplayFormat.DATE);
-			case Longitude:
-				return getLongitude().toString(DisplayFormat.DEG);
-			case Rank:
-				return getRank();
-			case Nakshathra:
-				return getNakshathra();
-			case Rasi:
-				return getRasi();
-			case PeriodPopup:
-				return getPeriod().toString(DisplayFormat.DATE_TIME);
-		}
-		return null;
 	}
 
 }

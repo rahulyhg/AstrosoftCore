@@ -12,7 +12,6 @@ import java.util.Set;
 
 import app.astrosoft.beans.HousePosition;
 import app.astrosoft.consts.AstroConsts;
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Ayanamsa;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;

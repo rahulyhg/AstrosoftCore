@@ -9,7 +9,6 @@ package app.astrosoft.beans;
 import java.util.EnumMap;
 
 import app.astrosoft.consts.AshtavargaName;
-import app.astrosoft.consts.AstrosoftTableColumn;
 import app.astrosoft.consts.Rasi;
 import app.astrosoft.core.Ashtavarga;
 

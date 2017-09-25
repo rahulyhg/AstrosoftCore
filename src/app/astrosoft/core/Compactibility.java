@@ -18,17 +18,81 @@ import app.astrosoft.consts.Nakshathra;
 import app.astrosoft.consts.Planet;
 import app.astrosoft.consts.Rasi;
 
-import app.astrosoft.util.FileOps;
 
 public class Compactibility  {
 
-	private static enum KutaFile {
-		RasiKuta,
-		YoniKuta,
-		NadiKuta;
+	private static enum KutaData {
+		RasiKuta(new int[][]{
+				{7,3,3,5,5,0,5,5,7,4,4,7},
+				{5,7,5,3,3,5,4,5,0,7,7,4},
+				{6,7,7,3,5,4,5,0,4,3,6,4},
+				{6,4,5,7,5,4,3,4,3,4,0,6},
+				{7,4,6,7,7,5,3,6,5,0,4,4},
+				{0,7,7,5,6,7,5,3,3,4,3,4},
+				{5,5,7,4,4,7,7,3,3,6,5,0},
+				{4,5,0,6,7,4,5,7,5,3,3,5},
+				{5,0,4,3,7,4,4,7,7,3,4,4},
+				{3,5,3,4,0,6,7,4,5,7,5,4},
+				{3,6,4,0,4,3,7,4,5,7,7,3},
+				{5,3,3,4,4,4,0,7,7,5,5,7}
+		}),
+		YoniKuta(new int[][]{
+				{4,2,2,3,2,2,2,1,0,1,3,3,2,1},
+				{2,4,3,3,2,2,2,2,3,1,2,3,2,0},
+				{2,3,4,2,1,2,1,3,3,1,2,0,3,1},
+				{3,3,2,4,2,1,1,1,1,2,2,2,0,2},
+				{2,2,1,2,4,2,1,2,2,1,0,2,1,1},
+				{2,2,2,1,2,4,0,2,2,1,3,3,2,1},
+				{2,2,1,1,1,0,4,2,2,2,2,2,1,2},
+				{1,2,3,1,2,2,2,4,3,0,3,2,2,1},
+				{0,3,3,1,2,2,2,3,4,1,2,2,2,1},
+				{1,1,1,2,1,1,2,0,1,4,1,1,2,1},
+				{1,2,2,2,0,3,2,3,2,1,4,2,2,1},
+				{3,3,0,2,2,3,2,2,2,1,2,4,3,2},
+				{2,2,3,0,1,2,1,2,2,2,2,3,4,2},
+				{1,0,1,2,1,1,2,1,2,1,1,2,2,4},
+		}),
+		NadiKuta(new int[][]{
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8},
+				{8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8,8,0,8},
+				{8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0,0,8,8,8,8,0},
+		});
 
+		private int[][] values;
+
+		KutaData(int [][]values){
+			this.values = values;
+		}
 		public String file(){
 			return name() + ".txt";
+		}
+
+		public int getValue(int row, int col){
+			return values[row][col];
 		}
 	};
 
@@ -310,8 +374,7 @@ public class Compactibility  {
 		int boyYoni = findYoni(boyNak);
 		int girlYoni = findYoni(girlNak);
 
-		int yoni = FileOps.getFromFile(KutaFile.YoniKuta.file(), boyYoni,
-				girlYoni);
+		int yoni = KutaData.YoniKuta.getValue(boyYoni ,girlYoni );
 
 		return yoni;
 
@@ -325,84 +388,84 @@ public class Compactibility  {
 
 		case 0:
 		case 23:
-			yoni = 1;
+			yoni = 0;
 
 			break;
 
 		case 1:
 		case 26:
-			yoni = 2;
+			yoni = 1;
 
 			break;
 
 		case 7:
 		case 2:
-			yoni = 3;
+			yoni = 2;
 
 			break;
 
 		case 3:
 		case 4:
-			yoni = 4;
+			yoni = 3;
 
 			break;
 
 		case 18:
 		case 5:
-			yoni = 5;
+			yoni = 4;
 
 			break;
 
 		case 8:
 		case 6:
-			yoni = 6;
+			yoni = 5;
 
 			break;
 
 		case 9:
 		case 10:
-			yoni = 7;
+			yoni = 6;
 
 			break;
 
 		case 11:
 		case 25:
-			yoni = 8;
+			yoni = 7;
 
 			break;
 
 		case 14:
 		case 12:
-			yoni = 9;
+			yoni = 8;
 
 			break;
 
 		case 15:
 		case 13:
-			yoni = 10;
+			yoni = 9;
 
 			break;
 
 		case 17:
 		case 16:
-			yoni = 11;
+			yoni = 10;
 
 			break;
 
 		case 19:
 		case 21:
-			yoni = 12;
+			yoni = 11;
 
 			break;
 
 		case 20:
-			yoni = 13;
+			yoni = 12;
 
 			break;
 
 		case 24:
 		case 22:
-			yoni = 14;
+			yoni = 13;
 
 			break;
 
@@ -414,8 +477,8 @@ public class Compactibility  {
 
 	private int calcRasiKuta() {
 
-		int kuta = FileOps.getFromFile(KutaFile.RasiKuta.file(), girlRasi + 1,
-				boyRasi + 1);
+		int kuta = KutaData.RasiKuta.getValue( girlRasi ,
+				boyRasi );
 
 		return kuta;
 
@@ -808,8 +871,7 @@ public class Compactibility  {
 
 	private int calcNadiKuta() {
 
-		int nadi = FileOps.getFromFile(KutaFile.NadiKuta.file(), girlNak + 1,
-				boyNak + 1);
+		int nadi = KutaData.NadiKuta.getValue(girlNak,boyNak);
 
 		return nadi;
 

@@ -19,7 +19,6 @@
 	<property name="resources_dir" value="resources" />
 	<property name="dist_resources_dir" value="${deploy_dir}/resources" />
 	<property name="bin_dir" value="bin" />
-	<property name="etc_dir" value="${src_dir}/etc" />
 	<property name="release_dir" value="release/AstroSoft" />
 	<property name="log_prop" value="${resources_dir}/logging.properties" />
 
@@ -50,9 +49,6 @@
 	<target name="copy-resources" description="Copy Resources to Classes dir">
 		<copy todir="${dist_resources_dir}">
 			<fileset dir="${resources_dir}" />
-		</copy>
-		<copy todir="${deploy_dir}">
-			<fileset dir="${etc_dir}" />
 		</copy>
 	</target>
 

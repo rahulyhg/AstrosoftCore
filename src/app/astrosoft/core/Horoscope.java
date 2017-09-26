@@ -12,13 +12,10 @@ import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
 
+import app.astrosoft.beans.*;
 import app.astrosoft.consts.*;
 import swisseph.SweDate;
-import app.astrosoft.beans.BirthData;
-import app.astrosoft.beans.HousePosition;
-import app.astrosoft.beans.NakshathraPada;
-import app.astrosoft.beans.Place;
-import app.astrosoft.beans.PlanetaryInfo;
+import app.astrosoft.beans.AstroData;
 
 import app.astrosoft.pref.AstrosoftPref;
 import app.astrosoft.util.AstroUtil;
@@ -29,7 +26,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 	private static final Logger log = Logger.getLogger(Horoscope.class.getName());
 
-	private BirthData birthData;
+	private AstroData astroData;
 
 	private SwissHelper swissHelper;
 
@@ -64,7 +61,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 	public Horoscope(String name, int date, int month, int year, int hr,
 			int min, Place place) {
 
-		this(new BirthData(name, date, month, year, hr, min, 0, place));
+		this(new AstroData(name, date, month, year, hr, min, 0, place));
 	}
 
 	public Horoscope(String name, int date, int month, int year, int hr,
@@ -72,23 +69,23 @@ public class Horoscope implements  PreferenceChangeListener  {
 		this(name, date, month, year, hr, min, new Place(place, lati, longi, tz));
 	}
 
-	public Horoscope(BirthData birthData){
+	public Horoscope(AstroData astroData){
 
-		this.birthData = birthData;
-		swissHelper = new SwissHelper(birthData.birthSD());
+		this.astroData = astroData;
+		swissHelper = new SwissHelper(astroData.birthSD());
 		calculate();
 	}
 
 
 	/*public static Horoscope valueOfXMLNode(Node horoscopeNode){
 
-		return new Horoscope(BirthData.valueOfXMLNode(horoscopeNode.getChildNodes().item(0)));
+		return new Horoscope(AstroData.valueOfXMLNode(horoscopeNode.getChildNodes().item(0)));
 	}*/
 
 	/*public Element toXMLElement(Document doc, String elementName){
 
 		Element horElement = doc.createElement(elementName);
-		horElement.appendChild(birthData.toXMLElement(doc));
+		horElement.appendChild(astroData.toXMLElement(doc));
 		return horElement;
 	}*/
 
@@ -122,13 +119,13 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 	private void calcSunRiseSet() {
 
-		sunrise = AstroUtil.getSunRise(birthData.year(), birthData.month(), birthData.date(),
-				birthData.longitude(), birthData.latitude(), birthData.timeZone());
-		sunset = AstroUtil.getSunSet(birthData.year(), birthData.month(), birthData.date(),
-				birthData.longitude(), birthData.latitude(), birthData.timeZone());
+		sunrise = AstroUtil.getSunRise(astroData.year(), astroData.month(), astroData.date(),
+				astroData.longitude(), astroData.latitude(), astroData.timeZone());
+		sunset = AstroUtil.getSunSet(astroData.year(), astroData.month(), astroData.date(),
+				astroData.longitude(), astroData.latitude(), astroData.timeZone());
 		
-		if ((birthData.birthTime() > sunrise)
-				&& (birthData.birthTime() < sunset)) {
+		if ((astroData.birthTime() > sunrise)
+				&& (astroData.birthTime() < sunset)) {
 			isBirthAtDay = true;
 		} else {
 			isBirthAtDay = false;
@@ -137,7 +134,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 	public void calcHousePositions() {
 
-		housePosition = swissHelper.calcHousePosition(birthData.longitude(), birthData.latitude());
+		housePosition = swissHelper.calcHousePosition(astroData.longitude(), astroData.latitude());
 	}
 
 	public void calcPlanetaryInfo() {
@@ -152,7 +149,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 	public void calcDashaBhukthis() {
 
-		vimDasa = new Vimshottari(getPlanetaryPosition(Planet.Moon), birthData.birthDay());
+		vimDasa = new Vimshottari(getPlanetaryPosition(Planet.Moon), astroData.birthDay());
 
 		/*setVimDasha(v.getDashaString());
 		setCurrentDasha(v.getCurrentDasha());
@@ -176,11 +173,11 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 	private void calcShadBala() {
 
-		if (birthData.year() < 1900){
+		if (astroData.year() < 1900){
 			log.warning("Year should be less than 1900");
 
 		}else{
-			shadBala = new ShadBala(planetaryInfo, housePosition, birthData, ayanamsa, sunrise, sunset, getPaksha());
+			shadBala = new ShadBala(planetaryInfo, housePosition, astroData, ayanamsa, sunrise, sunset, getPaksha());
 		}
 
 	}
@@ -249,16 +246,16 @@ public class Horoscope implements  PreferenceChangeListener  {
 		return housePosition;
 	}
 
-	public BirthData getBirthData() {
-		return birthData;
+	public AstroData getAstroData() {
+		return astroData;
 	}
 
 	public SweDate getBirthSD() {
-		return birthData.birthSD();
+		return astroData.birthSD();
 	}
 
 	public String getPersonName(){
-		return birthData.name();
+		return astroData.name();
 	}
 
 	public Rasi getAscendant(){
@@ -339,7 +336,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 	}
 	
 	public Sex getPersonSex(){
-		return birthData.sex();
+		return astroData.sex();
 	}
 	
 
@@ -405,12 +402,12 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 		if(title == null){
 			StringBuilder sb = new StringBuilder("Horoscope of ");
-			sb.append(birthData.name());
+			sb.append(astroData.name());
 			sb.append(" born on ");
-			sb.append(birthData.birthDayString());
-			sb.append(" " + AstroUtil.timeFormat(birthData.birthTime()));
+			sb.append(astroData.birthDayString());
+			sb.append(" " + AstroUtil.timeFormat(astroData.birthTime()));
 			sb.append(" at ");
-			sb.append(birthData.place());
+			sb.append(astroData.place());
 			title = sb.toString();
 		}
 		return title;
@@ -504,6 +501,7 @@ public class Horoscope implements  PreferenceChangeListener  {
 
 		Horoscope h = new Horoscope("Raja", 11, 12, 1980, 1, 44,
 				77 + (44.00 / 60.00), 11 + (22.00 / 60.00), 5.5, "Erode");
+		h.setAyanamsa(Ayanamsa.LAHARI);
 		h.calculateAll();
 
 		System.out.println("----------------------Raja----------------------");

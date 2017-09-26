@@ -1,5 +1,5 @@
 /**
- * BirthData.java
+ * AstroData.java
  *
  * Created on December 14, 2002, 12:08 PM
  *
@@ -7,76 +7,69 @@
  */
 package app.astrosoft.beans;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import app.astrosoft.consts.Sex;
 import app.astrosoft.consts.WeekDay;
-import app.astrosoft.consts.XmlConsts;
 
 import app.astrosoft.util.AstroUtil;
 import swisseph.SweDate;
 
-public class BirthData {
+public class AstroData {
 
     private String personName;
     private Sex sex;
-    private Place birthPlace;
-    private int birthYear;
-    private int birthMonth;
-    private int birthDate;
-    private int birthHour;
-    private int birthMinutes;
-    private int birthSeconds;
+    private Place place;
+    private int year;
+    private int month;
+    private int date;
+    private int hour;
+    private int minutes;
+    private int seconds;
   
     private SweDate birthSD;
     
-    private double birthTime;
+    private double time;
 	private double birthGMT;
-	private Calendar birthDay;
-	private WeekDay birthWeekDay;
+	private Calendar calendar;
+	private WeekDay weekDay;
 
-    public BirthData(
+    public AstroData(
         String name, Sex sex, int date, int month, int year, int hr, int min, int secs,
         Place place) {
 
         personName = name;
         this.sex = sex;
-        birthDate = date;
-        birthMonth = month;
-        birthYear = year;
-        birthHour = hr;
-        birthMinutes = min;
-        birthSeconds = secs;
-        birthPlace = place;
+        this.date = date;
+        this.month = month;
+        this.year = year;
+        hour = hr;
+        minutes = min;
+        seconds = secs;
+        this.place = place;
         
-        birthTime = AstroUtil.decimal(hr, min, 0);
-        birthGMT = AstroUtil.decimal(hr, min, 0) - birthPlace.timeZone();
+        time = AstroUtil.decimal(hr, min, 0);
+        birthGMT = AstroUtil.decimal(hr, min, 0) - this.place.timeZone();
         birthSD = new SweDate(year, month, date, birthGMT);
- 		birthDay = new GregorianCalendar(year, month - 1, date, birthHour, birthMinutes, birthSeconds);
- 		birthWeekDay = WeekDay.ofDay(year, month, date);
+ 		calendar = new GregorianCalendar(year, month - 1, date, hour, minutes, seconds);
+ 		weekDay = WeekDay.ofDay(year, month, date);
 
     }
     
-    public BirthData( 
+    public AstroData(
             String name, int date, int month, int year, int hr, int min, int secs,
             Place place){
     	
     	this(name,null,date,month,year,hr,min,secs,place);
     }
     
-    public BirthData(String name, Sex sex, Calendar birthDay, Place place) {
-		this(name, sex, birthDay.get(Calendar.DATE), birthDay.get(Calendar.MONTH) + 1, birthDay.get(Calendar.YEAR), birthDay.get(Calendar.HOUR_OF_DAY), birthDay.get(Calendar.MINUTE),birthDay.get(Calendar.SECOND), place);
+    public AstroData(String name, Sex sex, Calendar calendar, Place place) {
+		this(name, sex, calendar.get(Calendar.DATE), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), place);
 	}
     
-    public BirthData(String name, Calendar birthDay, Place place){
-    	this(name, null, birthDay, place);
+    public AstroData(String name, Calendar calendar, Place place){
+    	this(name, null, calendar, place);
     }
 
 	public String name() {
@@ -84,39 +77,39 @@ public class BirthData {
 	}
     
     public int year() {
-		return birthYear;
+		return year;
 	}
 
 	public int month() {
-		return birthMonth;
+		return month;
 	}
 
 	public int date() {
-		return birthDate;
+		return date;
 	}
     
     public int hour() {
-		return birthHour;
+		return hour;
 	}
     
     public int minutes() {
-		return birthMinutes;
+		return minutes;
 	}
 
 	public double latitude() {
-		return birthPlace.latitude();
+		return place.latitude();
 	}
     
     public double longitude() {
-		return birthPlace.longitude();
+		return place.longitude();
 	}
     
     public String place() {
-		return birthPlace.city();
+		return place.city();
 	}
     
     public double timeZone() {
-		return birthPlace.timeZone();
+		return place.timeZone();
 	}
 
 	public SweDate birthSD() {
@@ -125,7 +118,7 @@ public class BirthData {
 	}
 	
 	public double birthTime() {
-		return birthTime;
+		return time;
 	}
 	
 	public double birthGMT() {
@@ -133,18 +126,18 @@ public class BirthData {
 	}
 	
 	public Calendar birthDay() {
-		return birthDay;
+		return calendar;
 	}
 	
 	public WeekDay weekDay() {
-		return birthWeekDay;
+		return weekDay;
 	}
 	
-	public Place getBirthPlace() {
-		return birthPlace;
+	public Place getPlace() {
+		return place;
 	}
 	public String birthDayString(){
-		return AstroUtil.formatDate(birthDay.getTime());
+		return AstroUtil.formatDate(calendar.getTime());
 	}
 	
 	public Sex sex(){

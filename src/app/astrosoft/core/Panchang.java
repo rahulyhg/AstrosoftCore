@@ -97,11 +97,10 @@ public class Panchang {
     	
     	timeZone = ((double)cal.getTimeZone().getRawOffset() / AstroConsts.MILLIS_IN_HR) + (cal.get(Calendar.DST_OFFSET) / AstroConsts.MILLIS_IN_HR) ;
     	place.setTimeZone(timeZone);
-    	panTime = preferences.getPanCalcTime() - timeZone;
-    	
+
     	//System.out.println("TZ " + timeZone);
     	    	
-    	swissHelper = new SwissHelper(new SweDate( cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), panTime ));
+    	swissHelper = new SwissHelper(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), preferences.getPanCalcTime() , timeZone );
     	
     	EnumMap<Planet, Double> planetPosition = swissHelper.getPlanetaryPosition();
     	sun = planetPosition.get(Planet.Sun);
@@ -195,7 +194,7 @@ public class Panchang {
     	
     	double correction = 0.0;
     	 
-    	SwissHelper swissHelper = new SwissHelper(new SweDate( cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), caltime));
+    	SwissHelper swissHelper = new SwissHelper(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), caltime);
  	    
  	    EnumMap<Planet, Double> planetPosition = swissHelper.getPlanetaryPosition(EnumSet.of(Planet.Sun, Planet.Moon));
  		
@@ -242,7 +241,7 @@ public class Panchang {
 		
 	    double correction = 0.0;
 	    
-	    SwissHelper swissHelper = new SwissHelper(new SweDate( cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), caltime));
+	    SwissHelper swissHelper = new SwissHelper(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), caltime);
 	    
 	    EnumMap<Planet, Double> planetPosition = swissHelper.getPlanetaryPosition(EnumSet.of(Planet.Sun, Planet.Moon));
 		

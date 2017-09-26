@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import app.astrosoft.beans.BirthData;
+import app.astrosoft.beans.AstroData;
 import app.astrosoft.beans.HousePosition;
 import app.astrosoft.beans.PlanetaryInfo;
 import app.astrosoft.beans.HousePosition.Bhava;
@@ -96,7 +96,7 @@ public class ShadBala  {
 	}
 
 
-	private BirthData birthData;
+	private AstroData astroData;
 	private double ayanamsa;
 
 	private double sunrise;
@@ -138,13 +138,13 @@ public class ShadBala  {
 	 * @param paksha
 	 */
 	public ShadBala(PlanetaryInfo planetaryInfo, HousePosition housePosition,
-			BirthData birthData, double ayanamsa, double sunrise,
-			double sunset, Paksha paksha) {
+                    AstroData astroData, double ayanamsa, double sunrise,
+                    double sunset, Paksha paksha) {
 
-		if (birthData.year() < 1900){
+		if (astroData.year() < 1900){
 			throw new IllegalArgumentException("WARNING: Year should be less than 1900");
 		}
-		this.birthData = birthData;
+		this.astroData = astroData;
 		this.housePosition = housePosition;
 		this.planetPosition = planetaryInfo.getPlanetPosition();
 		this.planetLocation = planetaryInfo.getPlanetLocation();
@@ -158,9 +158,9 @@ public class ShadBala  {
 		
 
 		birthDay = new GregorianCalendar();
-		birthDay.setTime(birthData.birthDay().getTime());
+		birthDay.setTime(astroData.calender().getTime());
 
-		if (birthData.birthTime() < sunrise) {
+		if (astroData.time() < sunrise) {
 			birthDay.add(Calendar.DATE, -1);
 		}
 
@@ -168,8 +168,8 @@ public class ShadBala  {
 		birthMonth = birthDay.get(Calendar.MONTH) + 1;
 		birthYear = birthDay.get(Calendar.YEAR);
 
-		if ((birthData.birthTime() > sunrise)
-				&& (birthData.birthTime() < sunset)) {
+		if ((astroData.time() > sunrise)
+				&& (astroData.time() < sunset)) {
 			birthDayNight = true;
 		} else {
 			birthDayNight = false;
@@ -803,20 +803,20 @@ public class ShadBala  {
 			lsunrise = sunrise;
 			lsunset = sunset;
 
-		} else if (birthData.birthTime() < sunrise) {
+		} else if (astroData.time() < sunrise) {
 
 			lsunrise = sunrise;
 			lsunset = AstroUtil.getSunSet(birthYear, birthMonth, birthDate,
-					birthData.longitude(), birthData.latitude(), birthData
+					astroData.longitude(), astroData.latitude(), astroData
 							.timeZone());
 
-		} else if (birthData.birthTime() > sunset) {
+		} else if (astroData.time() > sunset) {
 
 			birthDay.add(Calendar.DATE, 1);
 			lsunrise = AstroUtil.getSunRise(birthDay.get(Calendar.YEAR),
 					birthDay.get(Calendar.MONTH) + 1, birthDay
-							.get(Calendar.DATE), birthData.longitude(),
-					birthData.latitude(), birthData.timeZone());
+							.get(Calendar.DATE), astroData.longitude(),
+					astroData.latitude(), astroData.timeZone());
 			lsunset = sunset;
 
 		} else {
@@ -829,7 +829,7 @@ public class ShadBala  {
 		if (birthDayNight) {
 
 			part = (lsunset - lsunrise) / 3;
-			div = (int) ((birthData.birthTime() - lsunrise) / part) + 1;
+			div = (int) ((astroData.time() - lsunrise) / part) + 1;
 
 			switch (div) {
 
@@ -854,7 +854,7 @@ public class ShadBala  {
 
 			part = ((24 + lsunrise) - lsunset) / 3;
 
-			double diff = birthData.birthTime() - lsunset;
+			double diff = astroData.time() - lsunset;
 
 			if (diff < 0) {
 				diff += 24;
@@ -900,10 +900,10 @@ public class ShadBala  {
 		double sunrise;
 
 		sunrise = AstroUtil.getSunRise(birthYear, birthMonth, birthDate,
-				birthData.longitude(), birthData.latitude(), birthData
+				astroData.longitude(), astroData.latitude(), astroData
 						.timeZone());
 
-		double dur = birthData.birthTime() - sunrise;
+		double dur = astroData.time() - sunrise;
 
 		if (dur < 0) {
 			dur = dur + 24;
@@ -922,8 +922,7 @@ public class ShadBala  {
 
 	private EnumMap<Planet, Double> calcNatonnataBala() {
 
-		double btimeDeg = SwissHelper.calcNatonnataBalaDeg(birthData.birthSD(),
-				birthData.birthTime());
+		double btimeDeg = new SwissHelper(astroData.year(), astroData.month(), astroData.date(), astroData.time(), astroData.timeZone()).calcNatonnataBalaDeg(astroData.time());
 
 		EnumMap<Planet, Double> NatonnataBala = new EnumMap<Planet, Double>(
 				Planet.class);
@@ -939,7 +938,7 @@ public class ShadBala  {
 		NatonnataBala.put(Planet.Mercury, 60.0);
 
 		return NatonnataBala;
-		// System.out.println("\nbt : " + birthData.birthTime() + " E: " +
+		// System.out.println("\nbt : " + astroData.time() + " E: " +
 		// AstroUtil.dms(EqnOfTime) + sbErr);
 	}
 
@@ -1239,8 +1238,8 @@ public class ShadBala  {
 
 	private EnumMap<Planet, Double> calcChestabala() {
 
-		double utime = birthData.birthTime()
-				+ ((5 + (double) (4.00 / 60.00)) - birthData.timeZone());
+		double utime = astroData.time()
+				+ ((5 + (double) (4.00 / 60.00)) - astroData.timeZone());
 		double interval = epochDays + (double) (utime / 24.00);
 		double[] madhya = new double[7];
 		double[] seegh = new double[7];
@@ -1248,7 +1247,7 @@ public class ShadBala  {
 		double ck;
 
 		// System.out.println("Interval : " + interval + " BT " +
-		// AstroUtil.dms(birthData.birthTime()) + " UT: " + AstroUtil.dms(utime)
+		// AstroUtil.dms(astroData.time()) + " UT: " + AstroUtil.dms(utime)
 		// );
 		madhya[0] = madhya[3] = madhya[5] = ((interval * 0.9855931) + 257.4568) % 360;
 		madhya[2] = ((interval * 0.5240218) + 270.22) % 360;
@@ -1640,7 +1639,7 @@ public class ShadBala  {
 		// Horoscope("BV",16,10,1918,14,26,77+(34.00/60.00),13+(0.00/60.00),5.5,"Banglore");
 		h.setAyanamsa(Ayanamsa.KRISHNAMURTHI);
 		ShadBala sb = new ShadBala(h.getPlanetaryInfo(), h.getHousePosition(),
-				h.getBirthData(), h.getAyanamsa(), h.getSunrise(), h
+				h.getAstroData(), h.getAyanamsa(), h.getSunrise(), h
 						.getSunset(), h.getPaksha());
 
 		System.out.println(sb);

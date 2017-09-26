@@ -35,22 +35,23 @@ public class SwissHelper {
 	
 	private EnumMap<Planet, Boolean> isReverse;
 
-	public SwissHelper(SweDate sweDate) {
+	public SwissHelper(int year, int month, int date, double time, double timeZone) {
 		this();
-		this.sweDate = sweDate;
+		this.sweDate = new SweDate(year, month, date, time - timeZone);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param year
 	 * @param month
 	 * @param date
-	 * @param birthTime - Should be in GMT
+	 * @param time - should be in GMT
 	 */
-	public SwissHelper(int year, int month, int date, double birthTime) {
-		this(new SweDate(year, month, date, birthTime));
+	public SwissHelper(int year, int month, int date, double time) {
+		this.sweDate = new SweDate(year, month, date, time - 0.0);
 	}
 	
+
 	public SwissHelper() {
 		sw = new SwissEph();
 		sw.swe_set_sid_mode(AstrosoftPref.get().getAyanamsa().ayaValue(), 0.0, 0.0);
@@ -184,17 +185,17 @@ public class SwissHelper {
 	}
 
 
-	public static double calcNatonnataBalaDeg(SweDate birthSD, double birthTime) {
+	public double calcNatonnataBalaDeg(double time) {
 		
 		SwissEph sw = new SwissEph(  );
 
         //sw.swe_set_ephe_path("d\\:\\\\AstroSoft");
-        double et = birthSD.getJulDay(  ) + birthSD.getDeltaT(  );
+        double et = this.sweDate.getJulDay(  ) + this.sweDate.getDeltaT(  );
         DblObj E = new DblObj(  );
         StringBuffer sbErr = new StringBuffer(  );
         int diff = sw.swe_time_equ( et, E, sbErr );
         double EqnOfTime = E.val * 24 * -1;
-        double bTimeDeg = ( birthTime + EqnOfTime ) * 15;
+        double bTimeDeg = ( time + EqnOfTime ) * 15;
 
         if ( bTimeDeg > 180 ) {
             bTimeDeg = 360 - bTimeDeg;
@@ -208,7 +209,7 @@ public class SwissHelper {
 	
 	public static void main(String[] args) {
 		
-		SwissHelper sh = new SwissHelper(1980, 12, 11, (1 + (44.00 / 60.00) - 5.5));
+		SwissHelper sh = new SwissHelper(1980, 12, 11, (1 + (44.00 / 60.00)) , 5.5);
 		//SwissHelper sh = new SwissHelper(1960, 8, 10, (5 + (30.00 / 60.00) - 5.5));
 		System.out.println(sh.getPlanetaryPosition());
 		

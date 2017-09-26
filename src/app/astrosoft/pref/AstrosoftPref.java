@@ -90,10 +90,7 @@ public class AstrosoftPref {
 	public void setPlace(Place place) {
 		root.node(Preference.Place.name()).put(Preference.City.name(),
 				place.city());
-		root.node(Preference.Place.name()).put(Preference.State.name(),
-				place.state());
-		root.node(Preference.Place.name()).put(Preference.Country.name(),
-				place.country());
+
 		root.node(Preference.Place.name()).putDouble(
 				Preference.Longitude.name(), place.longitude());
 		root.node(Preference.Place.name()).putDouble(
@@ -150,13 +147,11 @@ public class AstrosoftPref {
 		Preferences placeNode = root.node("Place");
 
 		String city = placeNode.get(Preference.City.name(),defaultPlace.city());
-		String state = placeNode.get(Preference.State.name(),defaultPlace.state());
-		String country = placeNode.get(Preference.Country.name(),defaultPlace.country());
 		double latitude = placeNode.getDouble(Preference.Latitude.name(),defaultPlace.latitude());
 		double longitude = placeNode.getDouble(Preference.Longitude.name(),defaultPlace.longitude());
 		String timeZone = placeNode.get(Preference.TimeZone.name(),defaultPlace.astrosoftTimeZone().id());
 
-		return new Place(city,state,country, latitude, longitude, timeZone);
+		return new Place(city,latitude, longitude, timeZone);
 	}
 	
 

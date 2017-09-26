@@ -33,7 +33,7 @@ public class AstrosoftPref {
 	public static enum Preference {
 
 		Language, PanCalcTime, EphCalcTime, Ayanamsa, Place, City, State, Country, Longitude, Latitude, TimeZone, IsInitialized,
-		AcrobatExe, AstrosoftFilesDir;
+		;
 	}
 
 	private static double defaultEphCalcTime = 0.0; // 12.00 AM
@@ -50,9 +50,7 @@ public class AstrosoftPref {
 
 	private AstrosoftPref() {
 
-		if (System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0) {
-			defaultAstrosoftFilesDir = defaultAstrosoftFilesDir + File.separator + "My Documents" + File.separator;
-		}
+
 		if (root.getBoolean(Preference.IsInitialized.name(),
 				defaultIsInitialized) == false) {
 			log.info("Initializing Astrosoft Preferences ");
@@ -106,15 +104,7 @@ public class AstrosoftPref {
 
 	}
 
-	public void setAcrobatExecutable(String acrobatExecutable){
-		root.put(Preference.AcrobatExe.name(),acrobatExecutable);
-		flush();
-	}
-	
-	public void setAstrosoftFilesDir(String dir){
-		root.put(Preference.AstrosoftFilesDir.name(),dir);
-		flush();
-	}
+
 	
 	private void setDefaults() {
 
@@ -124,8 +114,7 @@ public class AstrosoftPref {
 		setEphCalcTime(defaultEphCalcTime);
 		setAyanamsa(Ayanamsa.getDefault());
 		setPlace(Place.getDefault());
-		setAcrobatExecutable(defaultAcrobatExecutable);
-		setAstrosoftFilesDir(defaultAstrosoftFilesDir);
+
 		
 	}
 
@@ -170,13 +159,7 @@ public class AstrosoftPref {
 		return new Place(city,state,country, latitude, longitude, timeZone);
 	}
 	
-	public String getAcrobatExecutable(){
-		return root.get(Preference.AcrobatExe.name(), defaultAcrobatExecutable);
-	}
-	
-	public String getAstrosoftFilesDir(){
-		return root.get(Preference.AstrosoftFilesDir.name(), defaultAstrosoftFilesDir);
-	}
+
 
 	private void clearAll() {
 		try {

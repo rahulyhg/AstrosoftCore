@@ -10,7 +10,7 @@ package app.astrosoft.core;
 import java.util.EnumMap;
 import java.util.Map;
 
-import app.astrosoft.beans.BirthData;
+import app.astrosoft.beans.AstroData;
 import app.astrosoft.beans.PlanetaryInfo;
 import app.astrosoft.consts.AstroConsts;
 import app.astrosoft.consts.Kuta;
@@ -108,9 +108,9 @@ public class Compactibility  {
 
 	private int girlRasi;
 
-	private BirthData boyBirthData;
+	private AstroData boyAstroData;
 
-	private BirthData girlBirthData;
+	private AstroData girlAstroData;
 
 	private EnumMap<Kuta, Integer> kutas;
 
@@ -167,10 +167,10 @@ public class Compactibility  {
 	}
 
 	public Compactibility(Horoscope b, Horoscope g) {
-		this(b.getBirthData().name(), g.getBirthData().name(), b.getNakshathra().getNak(), g.getNakshathra().getNak(), b.getRasi(), g.getRasi());
+		this(b.getAstroData().name(), g.getAstroData().name(), b.getNakshathra().getNak(), g.getNakshathra().getNak(), b.getRasi(), g.getRasi());
 
-		this.boyBirthData = b.getBirthData();
-		this.girlBirthData = g.getBirthData();
+		this.boyAstroData = b.getAstroData();
+		this.girlAstroData = g.getAstroData();
 
 		this.bCurPeriod = b.getCurrentDasa();
 		this.gCurPeriod = g.getCurrentDasa();
@@ -1238,12 +1238,12 @@ public class Compactibility  {
 		return girlPlanetaryInfo;
 	}
 
-	public BirthData getBoyBirthData() {
-		return boyBirthData;
+	public AstroData getBoyAstroData() {
+		return boyAstroData;
 	}
 
-	public BirthData getGirlBirthData() {
-		return girlBirthData;
+	public AstroData getGirlAstroData() {
+		return girlAstroData;
 	}
 
 	public String getBoyName() {

@@ -42,8 +42,7 @@ public class BirthData {
 	private Calendar birthDay;
 	private WeekDay birthWeekDay;
 
-    /** Creates a new instance of BirthData */
-    public BirthData( 
+    public BirthData(
         String name, Sex sex, int date, int month, int year, int hr, int min, int secs,
         Place place) {
 
@@ -152,35 +151,5 @@ public class BirthData {
 		return sex;
 	}
 	
-	
-	public static BirthData valueOfXMLNode(Node bdNode){
-		
-		String name = null;
-		Calendar birthDay = null;
-		Place place = null;
-		Sex sex = null;
-		
-		NodeList children = bdNode.getChildNodes();
-		
-		for(int i = 0; i < children.getLength(); i++){
-		
-			Node child = children.item(i);
-			
-			if (child.getNodeName().equals(XmlConsts.Name)){
-				name = child.getTextContent();
-			}
-			else if (child.getNodeName().equals(XmlConsts.Sex)){
-				sex = Enum.valueOf(Sex.class, child.getTextContent());
-			}
-			else if (child.getNodeName().equals(XmlConsts.DateTime)){
-				birthDay = AstroUtil.getCalendar(AstroUtil.parseDateTime(child.getTextContent()));
-			}
-			else if(child.getNodeName().equals(XmlConsts.Place)){
-				place = Place.valueOfXMLNode(child);
-			}
-			
-		}
-		
-		return new BirthData(name, sex, birthDay, place);
-	}
+
 }

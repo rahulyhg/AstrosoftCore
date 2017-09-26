@@ -8,8 +8,6 @@ package app.astrosoft.beans;
 
 import java.util.EnumSet;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -113,83 +111,56 @@ public class Place {
 		}
 	}
 	
-	private String city;
-	private String state;
-	private String country;
+	private String name;
 	private double longitude;
 	private double latitude;
 	private double timeZone;
 	private String timeZoneId;
 	
-	public Place(String city, String state, String country, double latitude, double longitude, double timeZone) {
-		this.state = state;
-		this.country = country;
-		this.city = city;
+	public Place(String name, double latitude, double longitude, double timeZone) {
+		this.name = name;
 		this.longitude = longitude; 
 		this.latitude = latitude;
 		this.timeZone = timeZone;
 	}
-	
-	public Place(String city, String state, String country, double latitude, double longitude, String timeZoneId) {
-		this(city, state, country, latitude, longitude, AstrosoftTimeZone.offset(timeZoneId));
-		this.timeZoneId = timeZoneId;
-	}
-	
-	public Place(String city, String state, String country, double latitude, Direction latDir, double longitude, Direction longDir, double timeZone) {
-		this(city, state, country , latitude * latDir.val, longitude * longDir.val, timeZone);
-	}
-	
-	public Place(String city, String state, String country, String latitude, char latDir, String longitude, char longDir, String timeZoneId) {
-		this(city, state, country, AstroUtil.toDouble(latitude,"\\."), Direction.ofChar(latDir), AstroUtil.toDouble(longitude, "\\."), Direction.ofChar(longDir), AstrosoftTimeZone.offset(timeZoneId));
-		this.timeZoneId = timeZoneId;
-	}
-	
-	/*public Place(String city, String state, String country, String latitude, char latDir, String longitude, char longDir, double timeZone) {
-		this(city, state, country, latitude, latDir, longitude, longDir, )
-	}*/
 
-	public Place(String city, double latitude, double longitude, double timeZone) {
-		this(city, null, null, latitude, longitude, timeZone);
+	//TODO REMOVE TIMEZONEID AFTER ASTROSOFTPERF
+	public Place(String name, double latitude, double longitude, String timeZoneId) {
+		this(name, latitude, longitude, AstrosoftTimeZone.offset(timeZoneId));
+		this.timeZoneId = timeZoneId;
 	}
 	
-	public Place(String city, String state, String country, Location latitude, Location longitude, String timeZoneId) {
-		this(city, state, country , latitude.value(), longitude.value(), AstrosoftTimeZone.offset(timeZoneId));
+	public Place(String name,  double latitude, Direction latDir, double longitude, Direction longDir, double timeZone) {
+		this(name, latitude * latDir.val, longitude * longDir.val, timeZone);
+	}
+	
+	public Place(String city, String latitude, char latDir, String longitude, char longDir, String timeZoneId) {
+		this(city, AstroUtil.toDouble(latitude,"\\."), Direction.ofChar(latDir), AstroUtil.toDouble(longitude, "\\."), Direction.ofChar(longDir), AstrosoftTimeZone.offset(timeZoneId));
+		this.timeZoneId = timeZoneId;
+	}
+	
+	public Place(String name, Location latitude, Location longitude, String timeZoneId) {
+		this(name, latitude.value(), longitude.value(), AstrosoftTimeZone.offset(timeZoneId));
 		this.timeZoneId = timeZoneId;
 	}
 	
 	public static Place getDefault(){
-		return new Place("Erode", "Tamil Nadu", "India" , new Location(11, 22, Direction.NORTH), new Location(77,44, Direction.EAST), "IST");
+		return new Place("Erode", new Location(11, 22, Direction.NORTH), new Location(77,44, Direction.EAST), "IST");
 	}
 	
 	public String city() {
-		return city;
+		return name;
 	}
 	
-	public String state() {
-		return state;
-	}
-	
-	public String country() {
-		return country;
-	}
+
 
 	public String display(){
-		return String.format("[%s , %s , %s, %s, %s, %s]", city, state, country, longitude, latitude, timeZone) ;
+		return String.format("[%s , %s , %s, %s]", name, longitude, latitude, timeZone) ;
 	}
 	
 	public String toString(){
 		
-		StringBuilder sb = new StringBuilder(city);
-		if (state != null){
-			sb.append(" , ");
-			sb.append(state);
-		}
-		
-		if (country != null){
-			sb.append(" , ");
-			sb.append(country);
-		}
-		return sb.toString() ;
+		return name;
 	}
 	
 	public double longitude() {
@@ -225,44 +196,5 @@ public class Place {
 		System.out.println(Place.getDefault());
 	}
 
-	public static Place valueOfXMLNode(Node placeNode) {
-	
-		String city = null;
-		String state = null;
-		String country = null;
-		String longitude = null;
-		String latitude = null;
-		String timeZoneId = null;
-		char latDir = ' ';
-		char longDir = ' ';
-		
-		NodeList children = placeNode.getChildNodes();
-		
-		for(int i = 0; i < children.getLength(); i++){
-		
-			Node child = children.item(i);
-			
-			if (child.getNodeName().equals(XmlConsts.City)){
-				city = child.getTextContent();
-			}
-			else if (child.getNodeName().equals(XmlConsts.State)){
-				state = child.getTextContent();
-			}
-			else if (child.getNodeName().equals(XmlConsts.Country)){
-				country = child.getTextContent();
-			}
-			else if (child.getNodeName().equals(XmlConsts.Longitude)){
-				longitude = child.getTextContent();
-				longDir = child.getAttributes().getNamedItem(XmlConsts.dir).getNodeValue().charAt(0);
-			}
-			else if (child.getNodeName().equals(XmlConsts.Latitude)){
-				latitude = child.getTextContent();
-				latDir = child.getAttributes().getNamedItem(XmlConsts.dir).getNodeValue().charAt(0);
-			}
-			else if (child.getNodeName().equals(XmlConsts.TimeZone)){
-				timeZoneId = child.getTextContent();
-			}
-		}
-		return new Place(city, state, country, latitude, latDir, longitude, longDir, timeZoneId);
-	}
+
 }
